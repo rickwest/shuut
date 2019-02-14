@@ -7,6 +7,12 @@
 
 // any CSS you require will output into a single css file (app.css in this case)
 
+// Icons
+require('@coreui/icons/css/coreui-icons.min.css');
+require('flag-icon-css/css/flag-icon.min.css');
+require('@fortawesome/fontawesome-free/css/all.min.css');
+require('simple-line-icons/css/simple-line-icons.css');
+
 // Core UI CSS
 require("@coreui/coreui/dist/css/coreui.min.css");
 // Custom CSS
