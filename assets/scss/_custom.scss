@@ -1,1 +1,24 @@
 // Here you can add other styles
+@mixin avatar($size) {
+  width: $size;
+  height: $size;
+  background-color: #f86c6b;
+  text-align: center;
+  border-radius: 50%;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+
+  .initials {
+    position: relative;
+    top: $size*0.25;
+    font-size: $size*0.5;
+    line-height: $size*0.5;
+    color: #fff;
+    font-family: "Courier New", monospace;
+    font-weight: bold;
+  }
+}
+
+.avatar-circle      { @include avatar(35px); }
+.avatar-circle-sm   { @include avatar(50px); }
+.avatar-circle-lg   { @include avatar(250px); }
