@@ -10,10 +10,8 @@
         {{ encore_entry_link_tags('app') }}
         {% block stylesheets %}{% endblock %}
     </head>
-    <body class="app header-fixed sidebar-fixed aside-menu-fixed sidebar-lg-show">
-        {% block body %}<h1>Hello, world!</h1>{% endblock %}
+    {% block body %}{% endblock %}
 
-        {{ encore_entry_script_tags('app') }}
-        {% block javascripts %}{% endblock %}
-    </body>
+    {{ encore_entry_script_tags('app') }}
+    {% block javascripts %}{% endblock %}
 </html>

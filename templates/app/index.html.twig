@@ -1,19 +1,10 @@
-{% extends 'base.html.twig' %}
+{% extends 'layouts/admin.html.twig' %}
 
-{% block body %}
-   {% include 'partials/header.html.twig' %}
-    <div class="app-body">
-    {% include 'partials/sidebar.html.twig' %}
-        <main class="main">
-            {% include 'partials/breadcrumb.html.twig' %}
-            <div class="container-fluid">
-                <div class="animated fadeIn"></div>
-            </div>
-        </main>
-    </div>
-    <footer class="app-footer">
-        <div>
-            <span>&copy; {{ "now"|date("Y") }} <a href="https://www.go-directeurope.com/">Go Direct</a> (Europe) Limited</span>
+{% block content %}
+    <div class="card">
+        <div class="card-header">Dashboard</div>
+        <div class="card-body">
+            <p>You are logged in!</p>
         </div>
-    </footer>
+    </div>
 {% endblock %}

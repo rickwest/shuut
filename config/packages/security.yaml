@@ -1,14 +1,38 @@
 security:
+    encoders:
+        App\Entity\User: bcrypt
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
-        in_memory: { memory: ~ }
+        users:
+            entity:
+                # the class of the entity that represents users
+                class: 'App\Entity\User'
+                # the property to query by - e.g. username, email, etc
+                property: 'username'
+
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
             anonymous: true
+            guard:
+                authenticators:
+                    - App\Security\LoginFormAuthenticator
 
+            remember_me:
+                secret:   '%kernel.secret%'
+                lifetime: 604800 # 1 week in seconds
+                path:     /
+
+            logout:
+                path: /logout
+                target: /
+
+    # by default, the feature is enabled by checking a
+    # checkbox in the login form (see below), uncomment the
+    # following line to always enable it.
+    #always_remember_me: true
             # activate different ways to authenticate
 
             # http_basic: true
@@ -20,5 +44,5 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        # - { path: ^/admin, roles: ROLE_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }
+         - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+         - { path: ^/, roles: ROLE_ADMIN }
