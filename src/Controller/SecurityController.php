@@ -14,6 +14,11 @@ class SecurityController extends Controller
      */
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
+        // if a user is already logged in redirect them
+        if ($this->getUser()) {
+            return $this->redirectToRoute('index');
+        }
+
         // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();
         // last username entered by the user
