@@ -12,9 +12,9 @@ class JobType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('quote')
-            ->add('vehicle')
-            ->add('driver')
+            ->add('quote', QuoteType::class)
+            ->add('vehicle', VehicleType::class)
+            ->add('driver', DriverType::class)
         ;
     }
 

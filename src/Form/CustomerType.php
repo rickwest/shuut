@@ -4,6 +4,8 @@ namespace App\Form;
 
 use App\Entity\Customer;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -12,13 +14,13 @@ class CustomerType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('accountRef')
-            ->add('name')
-            ->add('contactName')
-            ->add('telephone')
-            ->add('fax')
-            ->add('email')
-            ->add('address')
+            ->add('accountRef', TextType::class)
+            ->add('name', TextType::class)
+            ->add('contactName', TextType::class)
+            ->add('telephone', TextType::class)
+            ->add('fax',TextType::class)
+            ->add('email', EmailType::class)
+            ->add('address', AddressType::class)
         ;
     }
 
