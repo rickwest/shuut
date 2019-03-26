@@ -21,6 +21,7 @@
         "perfect-scrollbar": "^1.4.0",
         "popper.js": "^1.14.7",
         "sass-loader": "^7.1.0",
-        "simple-line-icons": "^2.4.1"
+        "simple-line-icons": "^2.4.1",
+        "turbolinks": "^5.2.0"
     }
 }

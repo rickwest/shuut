@@ -8,6 +8,9 @@
         <title>{% block title %}Go Direct{% endblock %}</title>
 
         {{ encore_entry_link_tags('app') }}
+
+        {#Turbolinks needs to be in head https://github.com/turbolinks/turbolinks #}
+        {{ encore_entry_script_tags('turbolinks') }}
         {% block stylesheets %}{% endblock %}
     </head>
     {% block body %}{% endblock %}
