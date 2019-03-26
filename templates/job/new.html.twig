@@ -1,0 +1,16 @@
+{% extends 'layouts/admin.html.twig' %}
+
+{% block title %}New Job{% endblock %}
+
+{% block content %}
+    <div class="card">
+        <div class="card-header"></div>
+        <div class="card-body">
+            <h1>Create new Job</h1>
+
+            {{ include('job/_form.html.twig') }}
+
+            <a href="{{ path('job_index') }}">back to list</a>
+        </div>
+    </div>
+{% endblock %}

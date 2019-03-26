@@ -1,0 +1,16 @@
+{% extends 'layouts/admin.html.twig' %}
+
+{% block title %}New Driver{% endblock %}
+
+{% block content %}
+    <div class="card">
+        <div class="card-header"></div>
+        <div class="card-body">
+            <h1>Create new Driver</h1>
+
+            {{ include('driver/_form.html.twig') }}
+
+            <a href="{{ path('driver_index') }}">back to list</a>
+        </div>
+    </div>
+{% endblock %}

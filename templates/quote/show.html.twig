@@ -1,0 +1,31 @@
+{% extends 'layouts/admin.html.twig' %}
+
+{% block title %}Quote{% endblock %}
+
+{% block content %}
+    <div class="card">
+        <div class="card-header"></div>
+        <div class="card-body">
+            <h1>Quote</h1>
+
+            <table class="table">
+                <tbody>
+                <tr>
+                    <th>Id</th>
+                    <td>{{ quote.id }}</td>
+                </tr>
+                <tr>
+                    <th>Notes</th>
+                    <td>{{ quote.notes }}</td>
+                </tr>
+                </tbody>
+            </table>
+
+            <a href="{{ path('quote_index') }}">back to list</a>
+
+            <a href="{{ path('quote_edit', {'id': quote.id}) }}">edit</a>
+
+            {{ include('quote/_delete_form.html.twig') }}
+        </div>
+    </div>
+{% endblock %}

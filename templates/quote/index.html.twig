@@ -1,0 +1,40 @@
+{% extends 'layouts/admin.html.twig' %}
+
+{% block title %}Quote index{% endblock %}
+
+{% block content %}
+    <div class="card">
+        <div class="card-header"></div>
+        <div class="card-body">
+            <h1>Quote index</h1>
+
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Notes</th>
+                    <th>actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for quote in quotes %}
+                    <tr>
+                        <td>{{ quote.id }}</td>
+                        <td>{{ quote.notes }}</td>
+                        <td>
+                            <a href="{{ path('quote_show', {'id': quote.id}) }}">show</a>
+                            <a href="{{ path('quote_edit', {'id': quote.id}) }}">edit</a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="3">no records found</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+            <a href="{{ path('quote_new') }}">Create new</a>
+        </div>
+    </div>
+{% endblock %}
