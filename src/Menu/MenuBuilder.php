@@ -46,7 +46,7 @@ class MenuBuilder
                 ->addItem($this->item('quote_index', 'Quotes', ['icon' => 'icon-location-pin']))
                 ->addItem($this->item('job_index', 'Jobs', ['icon' => 'icon-directions']))
                 ->addItem($this->item('vehicle_index', 'Vehicles', ['icon' => 'icon-rocket']))
-                ->addItem($this->item('driver_index', 'Driver', ['icon' => 'icon-people']))
+                ->addItem($this->item('driver_index', 'Drivers', ['icon' => 'icon-people']))
             ;
         } else {
             // no menu to build
