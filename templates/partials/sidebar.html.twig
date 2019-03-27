@@ -1,37 +1,39 @@
 <div class="sidebar">
     <nav class="sidebar-nav">
         <ul class="nav">
+            {% for item in menu.items %}
             <li class="nav-item">
-                <a class="nav-link" href="/">
-                    <i class="nav-icon icon-speedometer"></i> Dashboard
+                <a class="{{ item.classes|default('nav-link') }}" href="{{ item.url }}">
+                    <i class="nav-icon {{ item.icon }}"></i> {{ item.label }}
                 </a>
             </li>
-            <li class="nav-title">Quotes</li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <i class="nav-icon icon-pencil"></i> Quotes</a>
-            </li>
-            <li class="nav-title">Jobs</li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <i class="nav-icon icon-rocket"></i> Jobs</a>
-            </li>
-            <li class="nav-title">Invoices</li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <i class="nav-icon icon-calculator"></i> Invoices
-                </a>
-            </li>
-            <li class="nav-title">Customers</li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <i class="nav-icon icon-people"></i> Customers</a>
-            </li>
-            <li class="nav-title">Reporting</li>
-            <li class="nav-item">
-                <a class="nav-link" href="$">
-                    <i class="nav-icon icon-pie-chart"></i> Reports</a>
-            </li>
+            {% endfor %}
+            {#<li class="nav-title">Quotes</li>#}
+            {#<li class="nav-item">#}
+                {#<a class="nav-link" href="#">#}
+                    {#<i class="nav-icon icon-pencil"></i> Quotes</a>#}
+            {#</li>#}
+            {#<li class="nav-title">Jobs</li>#}
+            {#<li class="nav-item">#}
+                {#<a class="nav-link" href="#">#}
+                    {#<i class="nav-icon icon-rocket"></i> Jobs</a>#}
+            {#</li>#}
+            {#<li class="nav-title">Invoices</li>#}
+            {#<li class="nav-item">#}
+                {#<a class="nav-link" href="#">#}
+                    {#<i class="nav-icon icon-calculator"></i> Invoices#}
+                {#</a>#}
+            {#</li>#}
+            {#<li class="nav-title">Customers</li>#}
+            {#<li class="nav-item">#}
+                {#<a class="nav-link" href="#">#}
+                    {#<i class="nav-icon icon-people"></i> Customers</a>#}
+            {#</li>#}
+            {#<li class="nav-title">Reporting</li>#}
+            {#<li class="nav-item">#}
+                {#<a class="nav-link" href="$">#}
+                    {#<i class="nav-icon icon-pie-chart"></i> Reports</a>#}
+            {#</li>#}
         </ul>
     </nav>
     <button class="sidebar-minimizer brand-minimizer" type="button"></button>
