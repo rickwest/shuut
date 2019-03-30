@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Vehicle;
-use App\Form\VehicleType;
+use App\Form\VehicleFormType;
 use App\Repository\VehicleRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -31,7 +31,7 @@ class VehicleController extends Controller
     public function new(Request $request): Response
     {
         $vehicle = new Vehicle();
-        $form = $this->createForm(VehicleType::class, $vehicle);
+        $form = $this->createForm(VehicleFormType::class, $vehicle);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -63,7 +63,7 @@ class VehicleController extends Controller
      */
     public function edit(Request $request, Vehicle $vehicle): Response
     {
-        $form = $this->createForm(VehicleType::class, $vehicle);
+        $form = $this->createForm(VehicleFormType::class, $vehicle);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

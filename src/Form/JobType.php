@@ -13,7 +13,7 @@ class JobType extends AbstractType
     {
         $builder
             ->add('quote', QuoteType::class)
-            ->add('vehicle', VehicleType::class)
+            ->add('vehicle', VehicleFormType::class)
             ->add('driver', DriverType::class)
         ;
     }
