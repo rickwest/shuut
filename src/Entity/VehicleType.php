@@ -20,15 +20,9 @@ class VehicleType
 
     /**
      * @ORM\Id()
-     * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
     private $id;
-
-    /**
-     * @ORM\Column(type="integer")
-     */
-    private $vehicleTypeId;
 
     /**
      * @ORM\Column(type="string", length=126)
@@ -45,26 +39,15 @@ class VehicleType
      */
     private $vehicles;
 
-    public function __construct()
+    public function __construct(int $id)
     {
+        $this->id = $id;
         $this->vehicles = new ArrayCollection();
     }
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getVehicleTypeId(): ?int
-    {
-        return $this->vehicleTypeId;
-    }
-
-    public function setVehicleTypeId(int $vehicleTypeId): self
-    {
-        $this->vehicleTypeId = $vehicleTypeId;
-
-        return $this;
     }
 
     public function getName(): ?string
