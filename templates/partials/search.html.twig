@@ -1,0 +1,17 @@
+<form action="" method="get" id="search">
+    <div class="input-group">
+        <input type="search" class="form-control" id="q" name="q" value="{{ app.request.get('q') }}"/>
+        <span class="input-group-append">
+            <button class="btn btn-secondary" type="submit"><i class="fa fa-search"></i>&nbsp;Search</button>
+        </span>
+    </div>
+</form>
+
+<script type="text/javascript">
+    $('#search').submit(function(e) {
+        e.preventDefault();
+        var form = $(this);
+        console.log(form.serialize());
+        Turbolinks.visit(form.attr("action") + '?' + form.serialize());
+    });
+</script>
