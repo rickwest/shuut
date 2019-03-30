@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Mapping\ClassMetadata;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\VehicleRepository")
@@ -93,15 +95,14 @@ class Vehicle
         return $this;
     }
 
-    public function getDepth(): ?\DateTimeInterface
+    public function getDepth()
     {
         return $this->depth;
     }
 
-    public function setDepth(?\DateTimeInterface $depth): self
+    public function setDepth($depth): self
     {
         $this->depth = $depth;
-
         return $this;
     }
 
@@ -139,5 +140,15 @@ class Vehicle
         $this->model = $model;
 
         return $this;
+    }
+
+    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    {
+        $metadata
+            ->addPropertyConstraint('registration', new NotBlank())
+            ->addPropertyConstraint('make', new NotBlank())
+            ->addPropertyConstraint('model', new NotBlank())
+            ->addPropertyConstraint('vehicleType', new NotBlank())
+        ;
     }
 }
