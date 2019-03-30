@@ -10,5 +10,5 @@
             {% set icon = 'fa fa-sort-down' %}
         {% endif %}
     {% endif %}
-    <a href="{{ path(app.request.get('_route'), {'sort':col, 'order': order|default('ASC')}) }}"><i class="{{ icon|default('fa fa-sort') }}"></i></a>
+    <a href="{{ path(app.request.get('_route'), {q: app.request.get('q'), 'sort':col, 'order': order|default('ASC'), }) }}"><i class="{{ icon|default('fa fa-sort') }}"></i></a>
 {% endmacro %}
