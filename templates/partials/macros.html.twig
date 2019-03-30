@@ -1,0 +1,14 @@
+{% macro sort(col) %}
+    {# get current sort column #}
+    {% if app.request.get('sort') is defined and app.request.get('sort') == col %}
+        {# if the table is already sorted on this column, check for the current order and do the opposite. #}
+        {% if app.request.get('order') == 'ASC' %}
+            {% set order = 'DESC' %}
+            {% set icon = 'fa fa-sort-up' %}
+        {% else %}
+            {% set order = 'ASC' %}
+            {% set icon = 'fa fa-sort-down' %}
+        {% endif %}
+    {% endif %}
+    <a href="{{ path(app.request.get('_route'), {'sort':col, 'order': order|default('ASC')}) }}"><i class="{{ icon|default('fa fa-sort') }}"></i></a>
+{% endmacro %}
