@@ -25,9 +25,11 @@
         "symfony/validator": "3.4.*",
         "symfony/web-link": "3.4.*",
         "symfony/webpack-encore-bundle": "^1.1",
-        "symfony/yaml": "3.4.*"
+        "symfony/yaml": "3.4.*",
+        "white-october/pagerfanta-bundle": "^1.2"
     },
     "require-dev": {
+        "fzaninotto/faker": "^1.8",
         "symfony/debug-pack": "*",
         "symfony/maker-bundle": "^1.0",
         "symfony/profiler-pack": "*",
