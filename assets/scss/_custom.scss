@@ -2,7 +2,7 @@
 @mixin avatar($size) {
   width: $size;
   height: $size;
-  background-color: #f86c6b;
+  background-color: $primary;
   text-align: center;
   border-radius: 50%;
   -webkit-border-radius: 50%;
@@ -22,3 +22,7 @@
 .avatar-circle      { @include avatar(35px); }
 .avatar-circle-sm   { @include avatar(50px); }
 .avatar-circle-lg   { @include avatar(250px); }
+
+.turbolinks-progress-bar {
+  background-color: $primary;
+}
