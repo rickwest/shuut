@@ -2,48 +2,68 @@
 
 {% block title %}Customer{% endblock %}
 
+{% block headerContent %}
+    <h1 class="h3">Customer<small class="text-muted"> - {{ customer.name }}</small></h1>
+{% endblock %}
+
 {% block content %}
-    <div class="card">
-        <div class="card-header">Customer</div>
-        <div class="card-body">
-            <table class="table">
-                <tbody>
-                <tr>
-                    <th>Id</th>
-                    <td>{{ customer.id }}</td>
-                </tr>
-                <tr>
-                    <th>AccountRef</th>
-                    <td>{{ customer.accountRef }}</td>
-                </tr>
-                <tr>
-                    <th>Name</th>
-                    <td>{{ customer.name }}</td>
-                </tr>
-                <tr>
-                    <th>ContactName</th>
-                    <td>{{ customer.contactName }}</td>
-                </tr>
-                <tr>
-                    <th>Telephone</th>
-                    <td>{{ customer.telephone }}</td>
-                </tr>
-                <tr>
-                    <th>Fax</th>
-                    <td>{{ customer.fax }}</td>
-                </tr>
-                <tr>
-                    <th>Email</th>
-                    <td>{{ customer.email }}</td>
-                </tr>
-                </tbody>
-            </table>
+    <div class="row">
+        <div class="col-md-7">
+            <div class="card">
+                <div class="card-header">
+                    <strong>Basic Details</strong>
+                </div>
+                <div class="card-body">
+                    <dl class="row">
+                        <dt class="col-sm-3">Account Ref</dt>
+                        <dd class="col-sm-9">{{ customer.accountRef }}</dd>
 
-            <a href="{{ path('customer_index') }}">back to list</a>
+                        <dt class="col-sm-3">Name</dt>
+                        <dd class="col-sm-9">{{ customer.name }}</dd>
 
-            <a href="{{ path('customer_edit', {'id': customer.id}) }}">edit</a>
+                        <dt class="col-sm-3">Contact Name</dt>
+                        <dd class="col-sm-9">{{ customer.contactName }}</dd>
 
-            {{ include('customer/_delete_form.html.twig') }}
+                        <dt class="col-sm-3">Telephone</dt>
+                        <dd class="col-sm-9">{{ customer.telephone }}</dd>
+
+                        <dt class="col-sm-3">Fax</dt>
+                        <dd class="col-sm-9">{{ customer.fax }}</dd>
+
+                        <dt class="col-sm-3">Email</dt>
+                        <dd class="col-sm-9">{{ customer.email }}</dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-5">
+            <div class="card">
+                <div class="card-header font-weight-bold">
+                    Address
+                </div>
+                <div class="card-body">
+                    <dl class="row">
+                        <dt class="col-sm-3">Line 1</dt>
+                        <dd class="col-sm-9">{{ customer.address.line1 }}</dd>
+
+                        <dt class="col-sm-3">Line 2</dt>
+                        <dd class="col-sm-9">{{ customer.address.line2|default('-') }}</dd>
+
+                        <dt class="col-sm-3">City</dt>
+                        <dd class="col-sm-9">{{ customer.address.city }}</dd>
+
+                        <dt class="col-sm-3">County</dt>
+                        <dd class="col-sm-9">{{ customer.address.county|default('-') }}</dd>
+
+                        <dt class="col-sm-3">Postcode</dt>
+                        <dd class="col-sm-9">{{ customer.address.postcode }}</dd>
+
+                        <dt class="col-sm-3">Country</dt>
+                        <dd class="col-sm-9">{{ customer.address.country|default('-') }}</dd>
+                    </dl>
+                </div>
+            </div>
         </div>
     </div>
+    {% include 'partials/crud/showActions.html.twig' with {routeNamePrefix: 'customer_', id: customer.id}%}
 {% endblock %}
