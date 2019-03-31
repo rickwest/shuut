@@ -2,13 +2,23 @@
 
 {% block body %}
 <body class="app header-fixed sidebar-fixed aside-menu-fixed sidebar-lg-show">
-    {% include 'partials/header.html.twig' %}
+    {% include 'partials/headerNav.html.twig' %}
     <div class="app-body">
         {% include 'partials/sidebar.html.twig' %}
         <main class="main">
-            {% include 'partials/breadcrumb.html.twig' %}
             <div class="container-fluid">
                 {#<div class="animated fadeIn">#}
+                    {% block header %}
+                        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                            {% block headerContent %}<h1 class="h3">Dashboard</h1>{% endblock %}
+                        </div>
+                    {% endblock %}
+                    {# read and display all flash messages #}
+                    {% for label, messages in app.flashes %}
+                        {% for message in messages %}
+                            <div class="alert alert-{{ label }}" id="flashes" role="alert">{{ message }}</div>
+                        {% endfor %}
+                    {% endfor %}
                     {% block content %}{% endblock %}
                 {#</div>#}
             </div>
@@ -20,4 +30,14 @@
         </div>
     </footer>
 </body>
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript">
+        if ($("#flashes").length) {
+            setTimeout(function() {
+                $("#flashes").hide()
+            }, 2000);
+        }
+    </script>
 {% endblock %}
