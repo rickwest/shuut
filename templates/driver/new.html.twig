@@ -2,15 +2,52 @@
 
 {% block title %}New Driver{% endblock %}
 
+{% block headerContent %}
+    <h1 class="h3">Create New Driver</h1>
+{% endblock %}
+
 {% block content %}
-    <div class="card">
-        <div class="card-header"></div>
-        <div class="card-body">
-            <h1>Create new Driver</h1>
-
-            {{ include('driver/_form.html.twig') }}
-
-            <a href="{{ path('driver_index') }}">back to list</a>
+    {{ form_start(form) }}
+    <div class="row">
+        <div class="col-md-7">
+            <div class="card">
+                <div class="card-header font-weight-bold">
+                    Basic Details
+                </div>
+                <div class="card-body">
+                    {{ form_row(form.name) }}
+                    {{ form_row(form.telephone) }}
+                    {{ form_row(form.email) }}
+                    <hr>
+                    <div class="font-weight-bold mb-3">Business Details</div>
+                    {{ form_row(form.tradingName) }}
+                    {{ form_row(form.vatNumber) }}
+                    {{ form_row(form.subcontractor) }}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-5">
+            <div class="card">
+                <div class="card-header font-weight-bold">
+                    Address
+                </div>
+                <div class="card-body">
+                    {{ form_row(form.address.line1) }}
+                    {{ form_row(form.address.line2) }}
+                    {{ form_row(form.address.city) }}
+                    {{ form_row(form.address.county) }}
+                    <div class="row">
+                        <div class="col-md-4">
+                            {{ form_row(form.address.postcode) }}
+                        </div>
+                        <div class="form-group col-md-8">
+                            {{ form_row(form.address.country) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
+    {% include 'partials/crud/newEditActions.html.twig' with {routeNamePrefix: 'driver_'} %}
+    {{ form_end(form) }}
 {% endblock %}
