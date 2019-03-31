@@ -16,7 +16,7 @@ class Vehicle
         'routeNamePrefix' => 'vehicle_',
         'view' => [
             'registration' => 'Registration',
-            'vehicleType' => 'Vehicle Type',
+            'vehicleType' => 'Type',
             'make' => 'Make',
             'model' => 'Model'
         ],
