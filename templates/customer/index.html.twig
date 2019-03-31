@@ -1,48 +1,25 @@
 {% extends 'layouts/admin.html.twig' %}
 
-{% block title %}Customer index{% endblock %}
+{% import 'partials/macros.html.twig' as macros %}
+
+{% block title %}Customers{% endblock %}
+
+{% block headerContent %}
+    <h1 class="h3">Customers</h1>
+    <div class="btn-toolbar mb-2 mb-md-0">
+        <a href="{{ path('customer_new') }}" class='btn btn-success float-md-right'><i class='fa fa-plus'></i>&nbsp;Add Customer</a>
+    </div>
+{% endblock %}
 
 {% block content %}
     <div class="card">
-        <div class="card-header">Customer index</div>
         <div class="card-body">
-            <table class="table">
-                <thead>
-                <tr>
-                    <th>Id</th>
-                    <th>AccountRef</th>
-                    <th>Name</th>
-                    <th>ContactName</th>
-                    <th>Telephone</th>
-                    <th>Fax</th>
-                    <th>Email</th>
-                    <th>actions</th>
-                </tr>
-                </thead>
-                <tbody>
-                {% for customer in customers %}
-                    <tr>
-                        <td>{{ customer.id }}</td>
-                        <td>{{ customer.accountRef }}</td>
-                        <td>{{ customer.name }}</td>
-                        <td>{{ customer.contactName }}</td>
-                        <td>{{ customer.telephone }}</td>
-                        <td>{{ customer.fax }}</td>
-                        <td>{{ customer.email }}</td>
-                        <td>
-                            <a href="{{ path('customer_show', {'id': customer.id}) }}">show</a>
-                            <a href="{{ path('customer_edit', {'id': customer.id}) }}">edit</a>
-                        </td>
-                    </tr>
-                {% else %}
-                    <tr>
-                        <td colspan="8">no records found</td>
-                    </tr>
-                {% endfor %}
-                </tbody>
-            </table>
-
-            <a href="{{ path('customer_new') }}">Create new</a>
+            <div class="row">
+                <div class="col-md-6 mb-4">
+                   {% include 'partials/search.html.twig' %}
+                </div>
+            </div>
+            {{ macros.table(table) }}
         </div>
     </div>
 {% endblock %}

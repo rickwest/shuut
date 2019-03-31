@@ -12,3 +12,37 @@
     {% endif %}
     <a href="{{ path(app.request.get('_route'), {q: app.request.get('q'), 'sort':col, 'order': order|default('ASC'), }) }}"><i class="{{ icon|default('fa fa-sort') }}"></i></a>
 {% endmacro %}
+
+{% macro table(table) %}
+    {% import _self as macros %}
+    <table class="table table-responsive-sm table-hover">
+        <thead>
+            <tr>
+            {% for col, head in table.tableMeta.view %}
+                <th>{{ head }} {{ macros.sort(col) }}</th>
+            {% endfor %}
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for item in table.pager.currentPageResults %}
+            <tr>
+            {% for col, head in table.tableMeta.view %}
+                <td>{{ attribute(item, col) }}</td>
+            {% endfor %}
+                <td>
+                    <a class="btn btn-sm btn-primary" href="{{ path(table.tableMeta.routeNamePrefix ~ 'show', {'id': item.id}) }}">Show</a>
+                    <a class="btn btn-sm btn-outline-dark" href="{{ path(table.tableMeta.routeNamePrefix ~ 'edit', {'id': item.id}) }}">Edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="8">No records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <div class="pagerfanta">
+        {{ pagerfanta(table.pager, 'twitter_bootstrap4') }}
+    </div>
+{% endmacro %}

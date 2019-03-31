@@ -4,29 +4,29 @@ namespace App\Controller;
 
 use App\Entity\Customer;
 use App\Form\CustomerType;
-use App\Repository\CustomerRepository;
+use App\Table\TableFactory;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/customer")
+ * @Route("/customer", name="customer_")
  */
 class CustomerController extends Controller
 {
     /**
-     * @Route("/", name="customer_index", methods={"GET"})
+     * @Route("/", name="index", methods={"GET"})
      */
-    public function index(CustomerRepository $customerRepository): Response
+    public function index(Request $request, TableFactory $tableFactory): Response
     {
         return $this->render('customer/index.html.twig', [
-            'customers' => $customerRepository->findAll(),
+            'table' => $tableFactory->getTable($request, Customer::class),
         ]);
     }
 
     /**
-     * @Route("/new", name="customer_new", methods={"GET","POST"})
+     * @Route("/new", name="new", methods={"GET","POST"})
      */
     public function new(Request $request): Response
     {
@@ -49,7 +49,7 @@ class CustomerController extends Controller
     }
 
     /**
-     * @Route("/{id}", name="customer_show", methods={"GET"})
+     * @Route("/{id}", name="show", methods={"GET"})
      */
     public function show(Customer $customer): Response
     {
@@ -59,7 +59,7 @@ class CustomerController extends Controller
     }
 
     /**
-     * @Route("/{id}/edit", name="customer_edit", methods={"GET","POST"})
+     * @Route("/{id}/edit", name="edit", methods={"GET","POST"})
      */
     public function edit(Request $request, Customer $customer): Response
     {
@@ -81,7 +81,7 @@ class CustomerController extends Controller
     }
 
     /**
-     * @Route("/{id}", name="customer_delete", methods={"DELETE"})
+     * @Route("/{id}", name="delete", methods={"DELETE"})
      */
     public function delete(Request $request, Customer $customer): Response
     {

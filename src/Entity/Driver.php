@@ -11,6 +11,17 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Driver
 {
+    public static $tableMeta = [
+        'sortColumn' => 'id',
+        'routeNamePrefix' => 'driver_',
+        'view' => [
+            'tradingName' => 'Trading Name',
+            'name' => 'Name',
+            'telephone' => 'Telephone',
+            'email' => 'Email'
+        ],
+    ];
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()

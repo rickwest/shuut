@@ -19,6 +19,26 @@ class VehicleRepository extends ServiceEntityRepository
         parent::__construct($registry, Vehicle::class);
     }
 
+    public function getTableQuery(string $sort, string $order, $q = null)
+    {
+        $qb = $this->createQueryBuilder('v');
+
+        if ($q) {
+            $qb
+                ->where('v.registration LIKE :search')
+                ->setParameter('search', '%' . $q . '%')
+            ;
+        }
+
+        if ($sort === 'vehicleType') {
+            $qb->join('v.vehicleType', 't')->orderBy('t.id', $order);
+        } else {
+            $qb->orderBy('v.' . $sort, $order);
+        }
+
+        return $qb->getQuery();
+    }
+
     // /**
     //  * @return Vehicle[] Returns an array of Vehicle objects
     //  */

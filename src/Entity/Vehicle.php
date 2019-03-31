@@ -11,6 +11,17 @@ use Symfony\Component\Validator\Mapping\ClassMetadata;
  */
 class Vehicle
 {
+    public static $tableMeta = [
+        'sortColumn' => 'id',
+        'routeNamePrefix' => 'vehicle_',
+        'view' => [
+            'registration' => 'Registration',
+            'vehicleType' => 'Vehicle Type',
+            'make' => 'Make',
+            'model' => 'Model'
+        ],
+    ];
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()

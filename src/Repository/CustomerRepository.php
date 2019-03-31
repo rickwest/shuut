@@ -19,6 +19,23 @@ class CustomerRepository extends ServiceEntityRepository
         parent::__construct($registry, Customer::class);
     }
 
+    public function getTableQuery(string $sort, string $order, $q = null)
+    {
+        $qb = $this->createQueryBuilder('c');
+
+        if ($q) {
+            $qb
+                ->where('c.name LIKE :search')
+                ->orWhere('c.accountRef LIKE :search')
+                ->setParameter('search', '%' . $q . '%')
+            ;
+        }
+
+        $qb->orderBy('c.' . $sort, $order);
+
+        return $qb->getQuery();
+    }
+
     // /**
     //  * @return Customer[] Returns an array of Customer objects
     //  */

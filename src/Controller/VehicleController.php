@@ -4,29 +4,29 @@ namespace App\Controller;
 
 use App\Entity\Vehicle;
 use App\Form\VehicleFormType;
-use App\Repository\VehicleRepository;
+use App\Table\TableFactory;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/vehicle")
+ * @Route("/vehicle", name="vehicle_")
  */
 class VehicleController extends Controller
 {
     /**
-     * @Route("/", name="vehicle_index", methods={"GET"})
+     * @Route("/", name="index", methods={"GET"})
      */
-    public function index(VehicleRepository $vehicleRepository): Response
+    public function index(Request $request, TableFactory $tableFactory): Response
     {
         return $this->render('vehicle/index.html.twig', [
-            'vehicles' => $vehicleRepository->findAll(),
+            'table' => $tableFactory->getTable($request,Vehicle::class),
         ]);
     }
 
     /**
-     * @Route("/new", name="vehicle_new", methods={"GET","POST"})
+     * @Route("/new", name="new", methods={"GET","POST"})
      */
     public function new(Request $request): Response
     {
@@ -49,7 +49,7 @@ class VehicleController extends Controller
     }
 
     /**
-     * @Route("/{id}", name="vehicle_show", methods={"GET"})
+     * @Route("/{id}", name="show", methods={"GET"})
      */
     public function show(Vehicle $vehicle): Response
     {
@@ -59,7 +59,7 @@ class VehicleController extends Controller
     }
 
     /**
-     * @Route("/{id}/edit", name="vehicle_edit", methods={"GET","POST"})
+     * @Route("/{id}/edit", name="edit", methods={"GET","POST"})
      */
     public function edit(Request $request, Vehicle $vehicle): Response
     {
@@ -81,7 +81,7 @@ class VehicleController extends Controller
     }
 
     /**
-     * @Route("/{id}", name="vehicle_delete", methods={"DELETE"})
+     * @Route("/{id}", name="delete", methods={"DELETE"})
      */
     public function delete(Request $request, Vehicle $vehicle): Response
     {

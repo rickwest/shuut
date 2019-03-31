@@ -11,6 +11,18 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Customer
 {
+    public static $tableMeta = [
+        'sortColumn' => 'id',
+        'routeNamePrefix' => 'customer_',
+        'view' => [
+            'accountRef' => 'Account Ref',
+            'name' => 'Name',
+            'contactName' => 'Contact Name',
+            'telephone' => 'Telephone',
+            'email' => 'Email'
+        ],
+    ];
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()

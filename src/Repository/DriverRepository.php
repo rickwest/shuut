@@ -19,6 +19,23 @@ class DriverRepository extends ServiceEntityRepository
         parent::__construct($registry, Driver::class);
     }
 
+    public function getTableQuery(string $sort, string $order, $q = null)
+    {
+        $qb = $this->createQueryBuilder('d');
+
+        if ($q) {
+            $qb
+                ->where('d.name LIKE :search')
+                ->orWhere('d.tradingName LIKE :search')
+                ->setParameter('search', '%' . $q . '%')
+            ;
+        }
+
+        $qb->orderBy('d.' . $sort, $order);
+
+        return $qb->getQuery();
+    }
+
     // /**
     //  * @return Driver[] Returns an array of Driver objects
     //  */

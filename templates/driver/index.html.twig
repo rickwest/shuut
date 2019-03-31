@@ -1,51 +1,25 @@
 {% extends 'layouts/admin.html.twig' %}
 
-{% block title %}Driver index{% endblock %}
+{% import 'partials/macros.html.twig' as macros %}
+
+{% block title %}Drivers{% endblock %}
+
+{% block headerContent %}
+    <h1 class="h3">Drivers</h1>
+    <div class="btn-toolbar mb-2 mb-md-0">
+        <a href="{{ path('driver_new') }}" class='btn btn-success float-md-right'><i class='fa fa-plus'></i>&nbsp;Add Driver</a>
+    </div>
+{% endblock %}
 
 {% block content %}
     <div class="card">
-        <div class="card-header"></div>
         <div class="card-body">
-            <h1>Driver index</h1>
-
-            <table class="table">
-                <thead>
-                <tr>
-                    <th>Id</th>
-                    <th>Name</th>
-                    <th>Telephone</th>
-                    <th>Email</th>
-                    <th>Subcontractor</th>
-                    <th>TradingName</th>
-                    <th>VatNumber</th>
-                    <th>actions</th>
-                </tr>
-                </thead>
-                <tbody>
-                {% for driver in drivers %}
-                    <tr>
-                        <td>{{ driver.id }}</td>
-                        <td>{{ driver.name }}</td>
-                        <td>{{ driver.telephone }}</td>
-                        <td>{{ driver.email }}</td>
-                        <td>{{ driver.subcontractor ? 'Yes' : 'No' }}</td>
-                        <td>{{ driver.tradingName }}</td>
-                        <td>{{ driver.vatNumber }}</td>
-                        <td>
-                            <a href="{{ path('driver_show', {'id': driver.id}) }}">show</a>
-                            <a href="{{ path('driver_edit', {'id': driver.id}) }}">edit</a>
-                        </td>
-                    </tr>
-                {% else %}
-                    <tr>
-                        <td colspan="8">no records found</td>
-                    </tr>
-                {% endfor %}
-                </tbody>
-            </table>
-
-            <a href="{{ path('driver_new') }}">Create new</a>
-
+            <div class="row">
+                <div class="col-md-6 mb-4">
+                    {% include 'partials/search.html.twig' %}
+                </div>
+            </div>
+            {{ macros.table(table) }}
         </div>
     </div>
 {% endblock %}

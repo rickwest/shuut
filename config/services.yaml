@@ -39,3 +39,8 @@ services:
         tags:
             - { name: kernel.event_listener, event: kernel.controller }
         public: true
+
+    App\Table\TableFactory:
+        arguments:
+            - '@doctrine.orm.entity_manager'
+        public: true

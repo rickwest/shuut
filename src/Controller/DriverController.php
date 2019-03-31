@@ -4,29 +4,29 @@ namespace App\Controller;
 
 use App\Entity\Driver;
 use App\Form\DriverType;
-use App\Repository\DriverRepository;
+use App\Table\TableFactory;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/driver")
+ * @Route("/driver", name="driver_")
  */
 class DriverController extends Controller
 {
     /**
-     * @Route("/", name="driver_index", methods={"GET"})
+     * @Route("/", name="index", methods={"GET"})
      */
-    public function index(DriverRepository $driverRepository): Response
+    public function index(Request $request, TableFactory $tableFactory): Response
     {
         return $this->render('driver/index.html.twig', [
-            'drivers' => $driverRepository->findAll(),
+            'table' => $tableFactory->getTable($request, Driver::class),
         ]);
     }
 
     /**
-     * @Route("/new", name="driver_new", methods={"GET","POST"})
+     * @Route("/new", name="new", methods={"GET","POST"})
      */
     public function new(Request $request): Response
     {
@@ -49,7 +49,7 @@ class DriverController extends Controller
     }
 
     /**
-     * @Route("/{id}", name="driver_show", methods={"GET"})
+     * @Route("/{id}", name="show", methods={"GET"})
      */
     public function show(Driver $driver): Response
     {
@@ -59,7 +59,7 @@ class DriverController extends Controller
     }
 
     /**
-     * @Route("/{id}/edit", name="driver_edit", methods={"GET","POST"})
+     * @Route("/{id}/edit", name="edit", methods={"GET","POST"})
      */
     public function edit(Request $request, Driver $driver): Response
     {
@@ -81,7 +81,7 @@ class DriverController extends Controller
     }
 
     /**
-     * @Route("/{id}", name="driver_delete", methods={"DELETE"})
+     * @Route("/{id}", name="delete", methods={"DELETE"})
      */
     public function delete(Request $request, Driver $driver): Response
     {

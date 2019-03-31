@@ -1,50 +1,25 @@
 {% extends 'layouts/admin.html.twig' %}
 
-{% block title %}Vehicle index{% endblock %}
+{% import 'partials/macros.html.twig' as macros %}
+
+{% block title %}Vehicles{% endblock %}
+
+{% block headerContent %}
+    <h1 class="h3">Vehicles</h1>
+    <div class="btn-toolbar mb-2 mb-md-0">
+        <a href="{{ path('vehicle_new') }}" class='btn btn-success float-md-right'><i class='fa fa-plus'></i>&nbsp;Add Vehicle</a>
+    </div>
+{% endblock %}
 
 {% block content %}
     <div class="card">
-        <div class="card-header"></div>
         <div class="card-body">
-            <h1>Vehicle index</h1>
-
-            <table class="table">
-                <thead>
-                <tr>
-                    <th>Id</th>
-                    <th>Registration</th>
-                    <th>Width</th>
-                    <th>Depth</th>
-                    <th>Height</th>
-                    <th>Make</th>
-                    <th>Model</th>
-                    <th>actions</th>
-                </tr>
-                </thead>
-                <tbody>
-                {% for vehicle in vehicles %}
-                    <tr>
-                        <td>{{ vehicle.id }}</td>
-                        <td>{{ vehicle.registration }}</td>
-                        <td>{{ vehicle.width }}</td>
-                        <td>{{ vehicle.depth }}</td>
-                        <td>{{ vehicle.height }}</td>
-                        <td>{{ vehicle.make }}</td>
-                        <td>{{ vehicle.model }}</td>
-                        <td>
-                            <a href="{{ path('vehicle_show', {'id': vehicle.id}) }}">show</a>
-                            <a href="{{ path('vehicle_edit', {'id': vehicle.id}) }}">edit</a>
-                        </td>
-                    </tr>
-                {% else %}
-                    <tr>
-                        <td colspan="8">no records found</td>
-                    </tr>
-                {% endfor %}
-                </tbody>
-            </table>
-
-            <a href="{{ path('vehicle_new') }}">Create new</a>
+            <div class="row">
+                <div class="col-md-6 mb-4">
+                    {% include 'partials/search.html.twig' %}
+                </div>
+            </div>
+            {{ macros.table(table) }}
         </div>
     </div>
 {% endblock %}
