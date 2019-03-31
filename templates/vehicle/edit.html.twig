@@ -2,17 +2,39 @@
 
 {% block title %}Edit Vehicle{% endblock %}
 
+{% block headerContent %}
+    <h1 class="h3">Edit Vehicle - {{ vehicle.registration }}</h1>
+{% endblock %}
+
 {% block content %}
-    <div class="card">
-        <div class="card-header"></div>
-        <div class="card-body">
-            <h1>Edit Vehicle</h1>
-
-            {{ include('vehicle/_form.html.twig', {'button_label': 'Update'}) }}
-
-            <a href="{{ path('vehicle_index') }}">back to list</a>
-
-            {{ include('vehicle/_delete_form.html.twig') }}
+    {{ form_start(form) }}
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header font-weight-bold">
+                    Basic Details
+                </div>
+                <div class="card-body">
+                    {{ form_row(form.registration) }}
+                    {{ form_row(form.make) }}
+                    {{ form_row(form.model) }}
+                    {{ form_row(form.vehicleType) }}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header font-weight-bold">
+                    Dimensions
+                </div>
+                <div class="card-body">
+                    {{ form_row(form.width) }}
+                    {{ form_row(form.depth) }}
+                    {{ form_row(form.height) }}
+                </div>
+            </div>
         </div>
     </div>
+    {% include 'partials/crud/newEditActions.html.twig' with {routeNamePrefix: 'vehicle_', submitLabel: 'Update'} %}
+    {{ form_end(form) }}
 {% endblock %}

@@ -2,15 +2,40 @@
 
 {% block title %}New Vehicle{% endblock %}
 
+{% block headerContent %}
+    <h1 class="h3">Create New Vehicle</h1>
+{% endblock %}
+
 {% block content %}
-    <div class="card">
-        <div class="card-header"></div>
-        <div class="card-body">
-            <h1>Create new Vehicle</h1>
+    {{ form_start(form) }}
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header font-weight-bold">
+                    Basic Details
+                </div>
+                <div class="card-body">
+                    {{ form_row(form.registration) }}
+                    {{ form_row(form.make) }}
+                    {{ form_row(form.model) }}
+                    {{ form_row(form.vehicleType) }}
 
-            {{ include('vehicle/_form.html.twig') }}
-
-            <a href="{{ path('vehicle_index') }}">back to list</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header font-weight-bold">
+                    Dimensions
+                </div>
+                <div class="card-body">
+                    {{ form_row(form.width) }}
+                    {{ form_row(form.depth) }}
+                    {{ form_row(form.height) }}
+                </div>
+            </div>
         </div>
     </div>
+    {% include 'partials/crud/newEditActions.html.twig' with {routeNamePrefix: 'vehicle_'} %}
+    {{ form_end(form) }}
 {% endblock %}

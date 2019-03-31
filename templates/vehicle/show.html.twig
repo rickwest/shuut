@@ -2,50 +2,53 @@
 
 {% block title %}Vehicle{% endblock %}
 
+{% block headerContent %}
+    <h1 class="h3">Vehicle - {{ vehicle.registration }}</h1>
+{% endblock %}
+
 {% block content %}
-    <div class="card">
-        <div class="card-header"></div>
-        <div class="card-body">
-            <h1>Vehicle</h1>
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header font-weight-bold">
+                    Basic Details
+                </div>
+                <div class="card-body">
+                    <dl class="row">
+                        <dt class="col-sm-3">Registration</dt>
+                        <dd class="col-sm-9">{{ vehicle.registration }}</dd>
 
-            <table class="table">
-                <tbody>
-                <tr>
-                    <th>Id</th>
-                    <td>{{ vehicle.id }}</td>
-                </tr>
-                <tr>
-                    <th>Registration</th>
-                    <td>{{ vehicle.registration }}</td>
-                </tr>
-                <tr>
-                    <th>Width</th>
-                    <td>{{ vehicle.width }}</td>
-                </tr>
-                <tr>
-                    <th>Depth</th>
-                    <td>{{ vehicle.depth }}</td>
-                </tr>
-                <tr>
-                    <th>Height</th>
-                    <td>{{ vehicle.height }}</td>
-                </tr>
-                <tr>
-                    <th>Make</th>
-                    <td>{{ vehicle.make }}</td>
-                </tr>
-                <tr>
-                    <th>Model</th>
-                    <td>{{ vehicle.model }}</td>
-                </tr>
-                </tbody>
-            </table>
+                        <dt class="col-sm-3">Make</dt>
+                        <dd class="col-sm-9">{{ vehicle.make }}</dd>
 
-            <a href="{{ path('vehicle_index') }}">back to list</a>
+                        <dt class="col-sm-3">Model</dt>
+                        <dd class="col-sm-9">{{ vehicle.model }}</dd>
 
-            <a href="{{ path('vehicle_edit', {'id': vehicle.id}) }}">edit</a>
+                        <dt class="col-sm-3 text-truncate">Type</dt>
+                        <dd class="col-sm-9">{{ vehicle.vehicleType }}</dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header font-weight-bold">
+                    Dimensions
+                </div>
+                <div class="card-body">
+                    <dl class="row">
+                        <dt class="col-sm-3">Depth</dt>
+                        <dd class="col-sm-9">{{ vehicle.depth }}</dd>
 
-            {{ include('vehicle/_delete_form.html.twig') }}
+                        <dt class="col-sm-3">Width</dt>
+                        <dd class="col-sm-9">{{ vehicle.width }}</dd>
+
+                        <dt class="col-sm-3">Height</dt>
+                        <dd class="col-sm-9">{{ vehicle.height }}</dd>
+                    </dl>
+                </div>
+            </div>
         </div>
     </div>
+    {% include 'partials/crud/showActions.html.twig' with {routeNamePrefix: 'vehicle_', id: vehicle.id}%}
 {% endblock %}
