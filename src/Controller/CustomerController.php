@@ -39,7 +39,11 @@ class CustomerController extends Controller
             $entityManager->persist($customer);
             $entityManager->flush();
 
-            return $this->redirectToRoute('customer_index');
+            $this->addFlash('success', 'Customer - ' . $customer->getName() . ' was created successfully');
+
+            return $this->redirectToRoute('customer_show', [
+                'id' => $customer->getId()
+            ]);
         }
 
         return $this->render('customer/new.html.twig', [
@@ -69,7 +73,9 @@ class CustomerController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('customer_index', [
+            $this->addFlash('success', 'Customer - ' . $customer->getName() . ' was updated successfully');
+
+            return $this->redirectToRoute('customer_show', [
                 'id' => $customer->getId(),
             ]);
         }
@@ -89,6 +95,8 @@ class CustomerController extends Controller
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($customer);
             $entityManager->flush();
+
+            $this->addFlash('success', 'Customer - ' . $customer->getName() . ' was deleted successfully');
         }
 
         return $this->redirectToRoute('customer_index');

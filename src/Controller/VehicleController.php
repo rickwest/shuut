@@ -39,7 +39,11 @@ class VehicleController extends Controller
             $entityManager->persist($vehicle);
             $entityManager->flush();
 
-            return $this->redirectToRoute('vehicle_index');
+            $this->addFlash('success', 'Vehicle - ' . $vehicle->getRegistration() . ' was created successfully');
+
+            return $this->redirectToRoute('vehicle_show', [
+                'id' => $vehicle->getId(),
+            ]);
         }
 
         return $this->render('vehicle/new.html.twig', [
@@ -69,7 +73,9 @@ class VehicleController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('vehicle_index', [
+            $this->addFlash('success', 'Vehicle - ' . $vehicle->getRegistration() . ' was updated successfully');
+
+            return $this->redirectToRoute('vehicle_show', [
                 'id' => $vehicle->getId(),
             ]);
         }
@@ -89,6 +95,8 @@ class VehicleController extends Controller
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($vehicle);
             $entityManager->flush();
+
+            $this->addFlash('success', 'Vehicle - ' . $vehicle->getRegistration() . ' was deleted successfully');
         }
 
         return $this->redirectToRoute('vehicle_index');

@@ -39,7 +39,11 @@ class DriverController extends Controller
             $entityManager->persist($driver);
             $entityManager->flush();
 
-            return $this->redirectToRoute('driver_index');
+            $this->addFlash('success', 'Driver - ' . $driver->getName() . ' was created successfully');
+
+            return $this->redirectToRoute('driver_show', [
+                'id' => $driver->getId(),
+            ]);
         }
 
         return $this->render('driver/new.html.twig', [
@@ -69,7 +73,9 @@ class DriverController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('driver_index', [
+            $this->addFlash('success', 'Driver - ' . $driver->getName() . ' was updated successfully');
+
+            return $this->redirectToRoute('driver_show', [
                 'id' => $driver->getId(),
             ]);
         }
@@ -89,6 +95,8 @@ class DriverController extends Controller
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($driver);
             $entityManager->flush();
+
+            $this->addFlash('success', 'Driver - ' . $driver->getName() . ' was deleted successfully');
         }
 
         return $this->redirectToRoute('driver_index');
