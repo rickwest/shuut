@@ -31,8 +31,8 @@
                 <td>{{ attribute(item, col) }}</td>
             {% endfor %}
                 <td>
-                    <a class="btn btn-sm btn-primary" href="{{ path(table.tableMeta.routeNamePrefix ~ 'show', {'id': item.id}) }}">Show</a>
-                    <a class="btn btn-sm btn-outline-dark" href="{{ path(table.tableMeta.routeNamePrefix ~ 'edit', {'id': item.id}) }}">Edit</a>
+                    <a class="btn btn-sm btn-primary" href="{{ path(table.tableMeta.routeNamePrefix ~ 'show', {'id': item.id}) }}"><i class="fa fa-eye"></i>&nbsp;View</a>
+                    <a class="btn btn-sm btn-outline-dark" href="{{ path(table.tableMeta.routeNamePrefix ~ 'edit', {'id': item.id}) }}"><i class="fa fa-edit"></i>&nbsp;Edit</a>
                 </td>
             </tr>
         {% else %}
