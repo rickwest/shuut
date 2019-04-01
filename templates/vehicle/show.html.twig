@@ -3,7 +3,7 @@
 {% block title %}Vehicle{% endblock %}
 
 {% block headerContent %}
-    <h1 class="h3">Vehicle - {{ vehicle.registration }}</h1>
+    <h1 class="h3">Vehicle<small class="text-muted"> - {{ vehicle.registration }}</small></h1>
 {% endblock %}
 
 {% block content %}
@@ -38,13 +38,13 @@
                 <div class="card-body">
                     <dl class="row">
                         <dt class="col-sm-3">Depth</dt>
-                        <dd class="col-sm-9">{{ vehicle.depth }}</dd>
+                        <dd class="col-sm-9">{{ vehicle.depth|default('-') }}</dd>
 
                         <dt class="col-sm-3">Width</dt>
-                        <dd class="col-sm-9">{{ vehicle.width }}</dd>
+                        <dd class="col-sm-9">{{ vehicle.width|default('-') }}</dd>
 
                         <dt class="col-sm-3">Height</dt>
-                        <dd class="col-sm-9">{{ vehicle.height }}</dd>
+                        <dd class="col-sm-9">{{ vehicle.height|default('-') }}</dd>
                     </dl>
                 </div>
             </div>
