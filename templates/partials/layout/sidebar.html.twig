@@ -1,0 +1,14 @@
+<div class="sidebar">
+    <nav class="sidebar-nav">
+        <ul class="nav">
+            {% for item in menu.items %}
+            <li class="nav-item">
+                <a class="{{ item.classes|default('nav-link') }}" href="{{ item.url }}">
+                    <i class="nav-icon {{ item.icon }}"></i> {{ item.label }}
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+    </nav>
+    <button class="sidebar-minimizer brand-minimizer" type="button"></button>
+</div>

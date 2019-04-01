@@ -1,10 +1,156 @@
 {% extends 'layouts/admin.html.twig' %}
 
 {% block content %}
-    <div class="card">
-        <div class="card-header">Dashboard</div>
-        <div class="card-body">
-            <p>You are logged in!</p>
+    <div class="row">
+        <div class="col-sm-6 col-md-3">
+            <div class="card">
+                <div class="card-body">
+                    <div class="h1 text-muted text-right mb-4">
+                        <i class="icon-clock"></i>
+                    </div>
+                    <div class="text-value-lg" id="time"></div>
+                    <small class="text-muted text-uppercase font-weight-bold">{{ "now"|date("D, d M Y") }}</small>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-6 col-md-3">
+            <div class="card">
+                <div class="card-body">
+                    <div class="h1 text-info text-right mb-4">
+                        <i class="icon-direction"></i>
+                    </div>
+                    <div class="text-value-lg">385</div>
+                    <small class="text-muted text-uppercase font-weight-bold">Jobs today</small>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-6 col-md-3">
+            <div class="card">
+                <div class="card-body">
+                    <div class="h1 text-success text-right mb-4">
+                        <i class="icon-directions"></i>
+                    </div>
+                    <div class="text-value-lg">1238</div>
+                    <small class="text-muted text-uppercase font-weight-bold">Jobs this week</small>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-6 col-md-3">
+            <div class="card">
+                <div class="card-body">
+                    <div class="h1 text-warning text-right mb-4">
+                        <i class="icon-wallet"></i>
+                    </div>
+                    <div class="text-value-lg">&pound; 1674.00</div>
+                    <small class="text-muted text-uppercase font-weight-bold">Revenue this week</small>
+                </div>
+            </div>
         </div>
     </div>
+    {#<div class="row">#}
+        {#<div class="col-6 col-lg-3">#}
+            {#<div class="card">#}
+                {#<div class="card-body p-0 d-flex align-items-center">#}
+                    {#<i class="fa fa-clock-o bg-dark p-4 px-5 font-2xl mr-3"></i>#}
+                    {#<div>#}
+                        {#<div class="text-value text-dark" id="time"></div>#}
+                        {#<div class="text-muted text-uppercase font-weight-bold small">{{ "now"|date("d/m/Y") }}</div>#}
+                    {#</div>#}
+                {#</div>#}
+            {#</div>#}
+        {#</div>#}
+        {#<div class="col-6 col-lg-3">#}
+            {#<div class="card">#}
+                {#<div class="card-body p-0 d-flex align-items-center">#}
+                    {#<i class="fa fa-road bg-info p-4 px-5 font-2xl mr-3"></i>#}
+                    {#<div>#}
+                        {#<div class="text-value text-dark">385</div>#}
+                        {#<div class="text-muted text-uppercase font-weight-bold small">Jobs today</div>#}
+                    {#</div>#}
+                {#</div>#}
+            {#</div>#}
+        {#</div>#}
+        {#<div class="col-6 col-lg-3">#}
+            {#<div class="card">#}
+                {#<div class="card-body p-0 d-flex align-items-center">#}
+                    {#<i class="fa fa-map-signs bg-success p-4 px-5 font-2xl mr-3"></i>#}
+                    {#<div>#}
+                        {#<div class="text-value text-dark">1234</div>#}
+                        {#<div class="text-muted text-uppercase font-weight-bold small">Jobs this week</div>#}
+                    {#</div>#}
+                {#</div>#}
+            {#</div>#}
+        {#</div>#}
+        {#<div class="col-6 col-lg-3">#}
+            {#<div class="card">#}
+                {#<div class="card-body p-0 d-flex align-items-center">#}
+                    {#<i class="fa fa-gbp bg-warning p-4 px-5 font-2xl mr-3"></i>#}
+                    {#<div>#}
+                        {#<div class="text-value text-dark">1234</div>#}
+                        {#<div class="text-muted text-uppercase font-weight-bold small">Jobs this week</div>#}
+                    {#</div>#}
+                {#</div>#}
+            {#</div>#}
+        {#</div>#}
+    {#</div>#}
+    <div class="card">
+        <div class="card-header">Job's Today</div>
+        <div class="card-body">
+            <table class="table table-responsive-sm table-hover">
+                <thead>
+                <tr>
+                    {#{% for col, head in table.tableMeta.view %}#}
+                        {#<th>{{ head }} {{ macros.sort(col) }}</th>#}
+                    {#{% endfor %}#}
+                    {#<th>Actions</th>#}
+                </tr>
+                </thead>
+                <tbody>
+                {#{% for item in table.pager.currentPageResults %}#}
+                    {#<tr>#}
+                        {#{% for col, head in table.tableMeta.view %}#}
+                            {#<td>{{ attribute(item, col) }}</td>#}
+                        {#{% endfor %}#}
+                        {#<td>#}
+                            {#<a class="btn btn-sm btn-primary" href="{{ path(table.tableMeta.routeNamePrefix ~ 'show', {'id': item.id}) }}"><i class="fa fa-eye"></i>&nbsp;View</a>#}
+                            {#<a class="btn btn-sm btn-outline-dark" href="{{ path(table.tableMeta.routeNamePrefix ~ 'edit', {'id': item.id}) }}"><i class="fa fa-edit"></i>&nbsp;Edit</a>#}
+                        {#</td>#}
+                    {#</tr>#}
+                {#{% else %}#}
+                    <tr>
+                        <td colspan="8">No jobs today</td>
+                    </tr>
+                {#{% endfor %}#}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+<script type="text/javascript">
+    // Display time on dashboard
+    if (document.getElementById('time')) {
+        (function () {
+            function checkTime(i) {
+                return (i < 10) ? "0" + i : i;
+            }
+            function startTime() {
+                var today = new Date(),
+                    h = checkTime(today.getHours()),
+                    m = checkTime(today.getMinutes()),
+                    s = checkTime(today.getSeconds());
+                document.getElementById('time').innerHTML = h + ":" + m + ":" + s;
+                t = setTimeout(function () {
+                    startTime()
+                }, 500);
+            }
+            startTime();
+        })();
+    }
+</script>
 {% endblock %}
