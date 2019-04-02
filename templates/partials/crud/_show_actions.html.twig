@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col">
         <a class="btn btn-dark" href="{{ path(routeNamePrefix ~ 'edit', {'id': id}) }}"><i class="fa fa-edit"></i>&nbsp;Edit</a>
-        {{ include('partials/crud/deleteForm.html.twig') }}
+        {{ include('partials/crud/_delete_form.html.twig') }}
         <a class="btn btn-ghost-primary" href="{{ path(routeNamePrefix ~ 'index') }}">Back to list</a>
     </div>
 </div>
