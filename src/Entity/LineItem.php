@@ -94,4 +94,22 @@ class LineItem
 
         return $this;
     }
+
+    /**
+     * @return Quote
+     */
+    public function getQuote()
+    {
+        return $this->quote;
+    }
+
+    /**
+     * @param Quote $quote
+     * @return LineItem
+     */
+    public function setQuote($quote)
+    {
+        $this->quote = $quote;
+        return $this;
+    }
 }

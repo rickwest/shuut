@@ -1,0 +1,85 @@
+{% extends 'layouts/admin.html.twig' %}
+
+{% block title %}New Quote{% endblock %}
+
+{% block headerContent %}
+    <h1 class="h3">Create New Quote</h1>
+{% endblock %}
+
+{% block content %}
+    {{ form_start(form) }}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <strong>Line Items</strong>
+                </div>
+                <div class="card-body">
+                    {# store the prototype on the data-prototype attribute #}
+                    <div id="line-items-fields-list" data-widget-tags="{{ "<div></div>"}}" data-prototype="
+                        <div class='row' id='line-item-row-{{ form.lineItems.vars.prototype.vars.name }}'>
+                            <div class='col-md-6'><div class='form-group'>{{ form_widget(form.lineItems.vars.prototype.description)|e }}</div></div>
+                            <div class='col-md-2'><div class='form-group'>{{ form_widget(form.lineItems.vars.prototype.quantity)|e }}</div></div>
+                            <div class='col-md-2'><div class='form-group'>{{ form_widget(form.lineItems.vars.prototype.rate)|e }}</div></div>
+                            <div class='col-md-2'><div class='form-group'><button onclick='deleteLineItem({{ form.lineItems.vars.prototype.vars.name }})' class='btn btn-outline-info'><i class='fa fa-trash'></i></button></div></div>
+                        </div>">
+
+                        {% for lineItemField in form.lineItems %}
+                            <div class="row">
+                                <div class="col-md-4"><div class='form-group'>{{ form_widget(lineItemField.description) }}</div></div>
+                                <div class="col-md-4"><div class='form-group'>{{ form_widget(lineItemField.quantity) }}</div></div>
+                                <div class="col-md-4"><div class='form-group'>{{ form_widget(lineItemField.rate) }}</div></div>
+                            </div>
+                            {{ form_errors(lineItemField) }}
+                        {% endfor %}
+                    </div>
+                    <button type="button" class="add-another-collection-widget btn btn-outline-success" data-list="#line-items-fields-list">
+                        <i class="fa fa-plus"></i>&nbsp;Add Line Item
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header font-weight-bold">
+                    Notes
+                </div>
+                <div class="card-body">
+                    {{ form_widget(form.notes) }}
+                </div>
+            </div>
+        </div>
+    </div>
+    {% include 'partials/crud/_new_edit_actions.html.twig' with {routeNamePrefix: 'quote_', submitLabel: 'Create'} %}
+    {{ form_end(form) }}
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.add-another-collection-widget').click(function (e) {
+                var list = $($(this).attr('data-list'));
+                // Try to find the counter of the list or use the length of the list
+                var counter = list.data('widget-counter') | list.children().length;
+
+                // grab the prototype template
+                var newWidget = list.attr('data-prototype');
+                // replace the "__name__" used in the id and name of the prototype
+                // with a number that's unique to your emails
+                // end name attribute looks like name="contact[emails][2]"
+                newWidget = newWidget.replace(/__name__/g, counter);
+                // Increase the counter
+                counter++;
+                // And store it, the length cannot be used if deleting widgets is allowed
+                list.data('widget-counter', counter);
+
+                // create a new list element and add it to the list
+                var newElem = $(list.attr('data-widget-tags')).html(newWidget);
+                newElem.appendTo(list);
+            });
+        });
+        function deleteLineItem(index) {
+            $('#line-item-row-' + index).parent().remove();
+        }
+    </script>
+{% endblock %}

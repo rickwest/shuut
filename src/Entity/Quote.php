@@ -2,10 +2,12 @@
 
 namespace App\Entity;
 
-//use App\Form\Model\QuoteFormModel;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\Valid;
+use Symfony\Component\Validator\Mapping\ClassMetadata;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\QuoteRepository")
@@ -51,6 +53,12 @@ class Quote
      * @ORM\OneToOne(targetEntity="App\Entity\Job", mappedBy="quote", cascade={"persist", "remove"})
      */
     private $job;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\VehicleType", inversedBy="quotes")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $vehicleType;
 
     public function __construct()
     {
@@ -158,15 +166,26 @@ class Quote
         return $this;
     }
 
-//    public static function createFromFormModel(QuoteFormModel $formModel) {
-//       $quote = new self();
-//       $quote->setDropOff($formModel->getDropOff());
-//       $quote->setPickUp($formModel->getPickUp());
-//       $quote->setNotes($formModel->getNotes());
-//
-//       foreach ($formModel->getFees() as $lineItem) {
-//           $quote->addFee($lineItem);
-//       }
-//       return $quote;
-//    }
+    public function getVehicleType(): ?VehicleType
+    {
+        return $this->vehicleType;
+    }
+
+    public function setVehicleType(?VehicleType $vehicleType): self
+    {
+        $this->vehicleType = $vehicleType;
+
+        return $this;
+    }
+
+    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    {
+        $metadata
+            ->addPropertyConstraint('customer', new NotBlank())
+            ->addPropertyConstraint('vehicleType', new NotBlank())
+            ->addPropertyConstraint('pickUp', new Valid())
+            ->addPropertyConstraint('pickUp', new Valid())
+            ->addPropertyConstraint('dropOff', new Valid())
+        ;
+    }
 }

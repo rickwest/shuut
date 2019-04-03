@@ -3,8 +3,9 @@
 namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Mapping\ClassMetadata;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\AddressRepository")
@@ -133,5 +134,14 @@ class Address
         $this->country = $country;
 
         return $this;
+    }
+
+    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    {
+        $metadata
+            ->addPropertyConstraint('line1', new NotBlank())
+            ->addPropertyConstraint('city', new NotBlank())
+            ->addPropertyConstraint('postcode', new NotBlank())
+        ;
     }
 }

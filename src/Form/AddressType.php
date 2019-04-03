@@ -13,12 +13,21 @@ class AddressType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('line1', TextType::class)
-            ->add('line2', TextType::class)
-            ->add('city', TextType::class)
-            ->add('county', TextType::class)
-            ->add('postcode', TextType::class)
-            ->add('country', TextType::class)
+            ->add('line1', TextType::class, [
+            ])
+            ->add('line2', TextType::class, [
+                'required' => false,
+            ])
+            ->add('city', TextType::class, [
+            ])
+            ->add('county', TextType::class, [
+                'required' => false,
+            ])
+            ->add('postcode', TextType::class, [
+            ])
+            ->add('country', TextType::class, [
+                'required' => false,
+            ])
         ;
     }
 

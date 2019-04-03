@@ -4,19 +4,23 @@ namespace App\Form;
 
 use App\Entity\Quote;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class QuoteType extends AbstractType
+class QuoteStep2Type extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('lineItems', CollectionType::class, [
+                'entry_type' => LineItemType::class,
+                'allow_add' => true,
+                'prototype' => true,
+                'label' => false,
+            ])
             ->add('notes', TextareaType::class)
-            ->add('customer', CustomerType::class)
-            ->add('pickUp', AddressType::class)
-            ->add('dropOff', AddressType::class)
         ;
     }
 
