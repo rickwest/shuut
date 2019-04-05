@@ -7,7 +7,7 @@
 {% endblock %}
 
 {% block content %}
-    {{ form_start(form) }}
+    {{ form_start(form, {attr: {novalidate: true}}) }}
     <div class="row">
         <div class="col-md-12">
             <div class="card">
