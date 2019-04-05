@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Mapping\ClassMetadata;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\LineItemRepository")
@@ -34,7 +36,7 @@ class LineItem
     /**
      * @ORM\Column(type="boolean")
      */
-    private $vatable;
+    private $vatable = true;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Quote", inversedBy="lineItems")
@@ -111,5 +113,13 @@ class LineItem
     {
         $this->quote = $quote;
         return $this;
+    }
+
+    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    {
+        $metadata
+            ->addPropertyConstraint('quantity', new NotBlank())
+            ->addPropertyConstraint('rate', new NotBlank())
+        ;
     }
 }

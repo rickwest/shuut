@@ -15,7 +15,9 @@ class LineItemType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('description', TextType::class)
+            ->add('description', TextType::class, [
+                'required' => false
+            ])
             ->add('quantity', IntegerType::class)
             ->add('rate', MoneyType::class, [
                 'currency' => 'GBP',
