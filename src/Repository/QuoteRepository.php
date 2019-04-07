@@ -19,6 +19,23 @@ class QuoteRepository extends ServiceEntityRepository
         parent::__construct($registry, Quote::class);
     }
 
+    public function getTableQuery(string $sort, string $order, $q = null)
+    {
+        $qb = $this->createQueryBuilder('q');
+
+//        if ($q) {
+//            $qb
+////                ->where('q.name LIKE :search')
+////                ->orWhere('c.accountRef LIKE :search')
+////                ->setParameter('search', '%' . $q . '%')
+//            ;
+//        }
+
+        $qb->orderBy('q.' . $sort, $order);
+
+        return $qb->getQuery();
+    }
+
     // /**
     //  * @return Quote[] Returns an array of Quote objects
     //  */

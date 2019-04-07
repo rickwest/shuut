@@ -1,5 +1,7 @@
 {% extends 'layouts/admin.html.twig' %}
 
+{% import 'partials/_macros.html.twig' as macros %}
+
 {% block title %}Quotes{% endblock %}
 
 {% block headerContent %}
@@ -14,9 +16,10 @@
         <div class="card-body">
             <div class="row">
                 <div class="col-md-6 mb-4">
-                    {% include 'partials/_macros.html.twig' %}
+                    {% include 'partials/_search.html.twig' %}
                 </div>
             </div>
+            {{ macros.table(table) }}
         </div>
     </div>
 {% endblock %}

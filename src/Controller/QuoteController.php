@@ -5,49 +5,49 @@ namespace App\Controller;
 use App\Entity\Quote;
 use App\Form\QuoteStep1Type;
 use App\Form\QuoteStep2Type;
-use App\Repository\QuoteRepository;
+use App\Table\TableFactory;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/quote")
+ * @Route("/quote", name="quote_" )
  */
 class QuoteController extends Controller
 {
     /**
-     * @Route("/", name="quote_index", methods={"GET"})
+     * @Route("/", name="index", methods={"GET"})
      */
-    public function index(QuoteRepository $quoteRepository): Response
+    public function index(Request $request, TableFactory $tableFactory): Response
     {
         return $this->render('quote/index.html.twig', [
-            'quotes' => $quoteRepository->findAll(),
+            'table' => $tableFactory->getTable($request, Quote::class),
+//            'quotes' => $quoteRepository->findAll(),
         ]);
     }
 
     /**
-     * @Route("/new", name="quote_new", methods={"GET","POST"})
+     * @Route("/new", name="new", methods={"GET","POST"})
      */
     public function newStep1(Request $request): Response
     {
-        if ($request->getSession()->has('quote')) {
-            $request->getSession()->remove('quote');
-        };
-
         $quote = new Quote();
         $form = $this->createForm(QuoteStep1Type::class, $quote);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-//            $entityManager = $this->getDoctrine()->getManager();
-//            $entityManager->persist($quote);
-//            $entityManager->flush();
-            // Calculate distance
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($quote);
+            $entityManager->flush();
 
-            $request->getSession()->set('quote', $quote);
+            $this->addFlash('success', 'Quote - ' . $quote->getId() . ' was created successfully');
+            //             Calculate distance
 
-            return $this->redirectToRoute('quote_new_2');
+            return $this->redirectToRoute('quote_new_2', [
+                'id' => $quote->getId(),
+            ]);
         }
 
         return $this->render('quote/new_step_1.html.twig', [
@@ -57,17 +57,12 @@ class QuoteController extends Controller
     }
 
     /**
-     * @Route("/new/2", name="quote_new_2", methods={"GET","POST"})
+     * @Route("/new/{id}", name="new_2")
+     * @Route("/edit/{id}", name="edit")
+     * @Method("GET, POST")
      */
-    public function newStep2(Request $request): Response
+    public function newStep2(Request $request, Quote $quote): Response
     {
-        if (! $request->getSession()->has('quote')) {
-            return $this->redirectToRoute('quote_new');
-        }
-
-        /** @var Quote $quote */
-        $quote = $request->getSession()->get('quote');
-
         $form = $this->createForm(QuoteStep2Type::class, $quote);
         $form->handleRequest($request);
 
@@ -76,51 +71,37 @@ class QuoteController extends Controller
             $entityManager->persist($quote);
             $entityManager->flush();
 
+            $this->addFlash('success', 'Quote - ' . $quote->getId() . ' was updated successfully');
+
             return $this->redirectToRoute('quote_show', [
                 'id' => $quote->getId(),
             ]);
         }
 
-        return $this->render('quote/new_step_2.html.twig', [
+        return $this->render('quote/new_edit.html.twig', [
             'quote' => $quote,
             'form' => $form->createView(),
         ]);
     }
 
     /**
-     * @Route("/{id}", name="quote_show", methods={"GET"})
+     * @Route("/{id}", name="show", methods={"GET"})
      */
     public function show(Quote $quote): Response
     {
+        if ($quote->status() === Quote::STATUS_ACCEPTED) {
+            return $this->redirectToRoute('job_show', [
+                'id' => $quote->getJob()->getId(),
+            ]);
+        }
+
         return $this->render('quote/show.html.twig', [
             'quote' => $quote,
         ]);
     }
 
     /**
-     * @Route("/{id}/edit", name="quote_edit", methods={"GET","POST"})
-     */
-    public function edit(Request $request, Quote $quote): Response
-    {
-        $form = $this->createForm(QuoteStep1Type::class, $quote);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
-
-            return $this->redirectToRoute('quote_index', [
-                'id' => $quote->getId(),
-            ]);
-        }
-
-        return $this->render('quote/edit.html.twig', [
-            'quote' => $quote,
-            'form' => $form->createView(),
-        ]);
-    }
-
-    /**
-     * @Route("/{id}", name="quote_delete", methods={"DELETE"})
+     * @Route("/{id}", name="delete", methods={"DELETE"})
      */
     public function delete(Request $request, Quote $quote): Response
     {
@@ -128,8 +109,29 @@ class QuoteController extends Controller
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($quote);
             $entityManager->flush();
+
+            $this->addFlash('success', 'Quote - ' . $quote->getId() . ' was deleted successfully');
         }
 
         return $this->redirectToRoute('quote_index');
+    }
+
+    /**
+     * @Route("/{id}", name="accept", methods={"POST"})
+     */
+    public function accept(Request $request, Quote $quote)
+    {
+        if ($this->isCsrfTokenValid('accept'.$quote->getId(), $request->request->get('_token'))) {
+            $quote->accept();
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Quote - ' . $quote->getId() . ' accepted and job created successfully.');
+        }
+
+        return $this->redirectToRoute('job_show', [
+            'id' => $quote->getJob()->getId(),
+        ]);
     }
 }

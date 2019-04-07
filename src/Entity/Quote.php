@@ -14,6 +14,21 @@ use Symfony\Component\Validator\Mapping\ClassMetadata;
  */
 class Quote
 {
+    const STATUS_INCOMPLETE = 'Incomplete';
+    const STATUS_COMPLETE = 'Complete';
+    const STATUS_ACCEPTED = 'Accepted';
+
+    public static $tableMeta = [
+        'sortColumn' => 'id',
+        'routeNamePrefix' => 'quote_',
+        'view' => [
+            'customer' => 'Customer',
+            'pickUp' => 'Pick Up',
+            'dropOff' => 'Drop Off',
+            'status' => 'Status',
+        ],
+    ];
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -28,13 +43,13 @@ class Quote
     private $customer;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Address")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Address", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $pickUp;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Address", inversedBy="quotes")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Address", inversedBy="quotes", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $dropOff;
@@ -45,7 +60,7 @@ class Quote
     private $notes;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\LineItem", mappedBy="quote")
+     * @ORM\OneToMany(targetEntity="App\Entity\LineItem", mappedBy="quote", cascade={"persist", "remove"})
      */
     private $lineItems;
 
@@ -178,14 +193,38 @@ class Quote
         return $this;
     }
 
+    public function accept()
+    {
+        $this->setJob(new Job());
+
+        return $this;
+    }
+
+    public function status()
+    {
+        if ($this->getLineItems()->isEmpty()) {
+            return self::STATUS_INCOMPLETE;
+        };
+
+        if ($this->getJob()) {
+            return self::STATUS_ACCEPTED;
+        }
+
+        return self::STATUS_COMPLETE;
+    }
+
+    public function getTotals() {
+        return 'total';
+    }
+
     public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
         $metadata
             ->addPropertyConstraint('customer', new NotBlank())
             ->addPropertyConstraint('vehicleType', new NotBlank())
             ->addPropertyConstraint('pickUp', new Valid())
-            ->addPropertyConstraint('pickUp', new Valid())
             ->addPropertyConstraint('dropOff', new Valid())
+            ->addPropertyConstraint('lineItems', new Valid())
         ;
     }
 }

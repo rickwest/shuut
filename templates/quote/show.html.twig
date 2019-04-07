@@ -2,30 +2,161 @@
 
 {% block title %}Quote{% endblock %}
 
+{% block headerContent %}
+    <h1 class="h3">Quote<small class="text-muted"> - {{ quote.id }}</small></h1>
+{% endblock %}
+
 {% block content %}
-    <div class="card">
-        <div class="card-header"></div>
-        <div class="card-body">
-            <h1>Quote</h1>
+    {% if quote.status is same as(constant('App\\Entity\\Quote::STATUS_INCOMPLETE')) %}
+        <div class="alert alert-warning" role="alert">
+            <span class="font-weight-bold">Quote Incomplete!</span> - You need to add some line items in order to complete this quote. <a href="{{ path('quote_new_2', {id: quote.id }) }}">Add some now!</a>
+        </div>
+    {% endif %}
 
-            <table class="table">
-                <tbody>
-                <tr>
-                    <th>Id</th>
-                    <td>{{ quote.id }}</td>
-                </tr>
-                <tr>
-                    <th>Notes</th>
-                    <td>{{ quote.notes }}</td>
-                </tr>
-                </tbody>
-            </table>
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <strong>Basic Details</strong>
+                </div>
+                <div class="card-body">
+                    <dl class="row">
+                        <dt class="col-sm-3">Customer</dt>
+                        <dd class="col-sm-9"><a href="{{ path('customer_show', {id: quote.customer.id}) }}">{{ quote.customer.name }}</a></dd>
 
-            <a href="{{ path('quote_index') }}">back to list</a>
+                        <dt class="col-sm-3">Vehicle Type</dt>
+                        <dd class="col-sm-9">{{ quote.vehicleType.name }}</dd>
 
-            <a href="{{ path('quote_edit', {'id': quote.id}) }}">edit</a>
+                    </dl>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    <strong>Actions</strong>
+                </div>
+                <div class="card-body">
+                    <form method="post" action="{{ path('quote_accept', {'id': quote.id}) }}">
+                        <input type="hidden" name="_token" value="{{ csrf_token('accept' ~ quote.id) }}">
+                        <button class="btn btn-success btn-block" {% if quote.status is not same as(constant('App\\Entity\\Quote::STATUS_COMPLETE')) %}disabled{% endif %}><i class="fa fa-thumbs-up"></i> Accept Quote</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header font-weight-bold">
+                    Pick-Up Address
+                </div>
+                <div class="card-body">
+                    <dl class="row">
+                        <dt class="col-sm-3">Line 1</dt>
+                        <dd class="col-sm-9">{{ quote.pickUp.line1 }}</dd>
 
-            {{ include('quote/_delete_form.html.twig') }}
+                        <dt class="col-sm-3">Line 2</dt>
+                        <dd class="col-sm-9">{{ quote.pickUp.line2|default('-') }}</dd>
+
+                        <dt class="col-sm-3">City</dt>
+                        <dd class="col-sm-9">{{ quote.pickUp.city }}</dd>
+
+                        <dt class="col-sm-3">County</dt>
+                        <dd class="col-sm-9">{{ quote.pickUp.county|default('-') }}</dd>
+
+                        <dt class="col-sm-3">Postcode</dt>
+                        <dd class="col-sm-9">{{ quote.pickUp.postcode }}</dd>
+
+                        <dt class="col-sm-3">Country</dt>
+                        <dd class="col-sm-9">{{ quote.pickUp.country|default('-') }}</dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header font-weight-bold">
+                    Drop-Off Address
+                </div>
+                <div class="card-body">
+                    <dl class="row">
+                        <dt class="col-sm-3">Line 1</dt>
+                        <dd class="col-sm-9">{{ quote.dropOff.line1 }}</dd>
+
+                        <dt class="col-sm-3">Line 2</dt>
+                        <dd class="col-sm-9">{{ quote.dropOff.line2|default('-') }}</dd>
+
+                        <dt class="col-sm-3">City</dt>
+                        <dd class="col-sm-9">{{ quote.dropOff.city }}</dd>
+
+                        <dt class="col-sm-3">County</dt>
+                        <dd class="col-sm-9">{{ quote.dropOff.county|default('-') }}</dd>
+
+                        <dt class="col-sm-3">Postcode</dt>
+                        <dd class="col-sm-9">{{ quote.dropOff.postcode }}</dd>
+
+                        <dt class="col-sm-3">Country</dt>
+                        <dd class="col-sm-9">{{ quote.dropOff.country|default('-') }}</dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header font-weight-bold">
+                   Line Items
+                </div>
+                <div class="card-body">
+                    {% if quote.lineItems|length > 0 %}
+                    <div class="table-responsive-sm">
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th>Description</th>
+                                <th>Quantity</th>
+                                <th>Rate</th>
+                                <th>Total</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for item in quote.lineItems %}
+                                <tr>
+                                    <td>{{ item.description }}</td>
+                                    <td>{{ item.quantity }}</td>
+                                    <td>{{ item.rate }}</td>
+                                    <td>{{ item.total }}</td>
+                                </tr>
+                            {% endfor %}
+                            <tr class="">
+                                <td colspan="3" class="font-weight-bold text-right">Subtotal</td>
+                                <td>Subtotal</td>
+                            </tr>
+                            <tr>
+                                <td colspan="3" class="font-weight-bold text-right">VAT (20%)</td>
+                                <td>Subtotal</td>
+                            </tr>
+                            <tr>
+                                <td colspan="3" class="font-weight-bold text-right">Total</td>
+                                <td>Subtotal</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    {% else %}
+                        ☹️ Don't work for free! <a href="{{ path('quote_new_2', {id: quote.id }) }}">Add some line item's!</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header font-weight-bold">
+                    Notes
+                </div>
+                <div class="card-body">
+                    {{ quote.notes|default('-') }}
+                </div>
+            </div>
         </div>
     </div>
+    {% include 'partials/crud/_show_actions.html.twig' with {routeNamePrefix: 'quote_', id: quote.id} %}
 {% endblock %}

@@ -17,8 +17,10 @@ class QuoteStep2Type extends AbstractType
             ->add('lineItems', CollectionType::class, [
                 'entry_type' => LineItemType::class,
                 'allow_add' => true,
+                'allow_delete' => true,
                 'prototype' => true,
                 'label' => false,
+                'by_reference' => false,
             ])
             ->add('notes', TextareaType::class)
         ;

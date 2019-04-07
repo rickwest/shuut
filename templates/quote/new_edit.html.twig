@@ -3,11 +3,11 @@
 {% block title %}New Quote{% endblock %}
 
 {% block headerContent %}
-    <h1 class="h3">Create New Quote</h1>
+    <h1 class="h3">Quote<small class="text-muted"> - {{ quote.id }}</small></h1>
 {% endblock %}
 
 {% block content %}
-    {{ form_start(form) }}
+    {{ form_start(form, {attr: {novalidate: true}}) }}
     <div class="row">
         <div class="col-md-12">
             <div class="card">
@@ -21,14 +21,17 @@
                             <div class='col-md-6'><div class='form-group'>{{ form_widget(form.lineItems.vars.prototype.description)|e }}</div></div>
                             <div class='col-md-2'><div class='form-group'>{{ form_widget(form.lineItems.vars.prototype.quantity)|e }}</div></div>
                             <div class='col-md-2'><div class='form-group'>{{ form_widget(form.lineItems.vars.prototype.rate)|e }}</div></div>
-                            <div class='col-md-2'><div class='form-group'><button onclick='deleteLineItem({{ form.lineItems.vars.prototype.vars.name }})' class='btn btn-outline-info'><i class='fa fa-trash'></i></button></div></div>
+                            <div class='col-md-2'><div class='form-group'><button type='button' onclick='deleteLineItem({{ form.lineItems.vars.prototype.vars.name }})' class='btn btn-outline-info'><i class='fa fa-trash'></i></button></div></div>
                         </div>">
 
                         {% for lineItemField in form.lineItems %}
-                            <div class="row">
-                                <div class="col-md-4"><div class='form-group'>{{ form_widget(lineItemField.description) }}</div></div>
-                                <div class="col-md-4"><div class='form-group'>{{ form_widget(lineItemField.quantity) }}</div></div>
-                                <div class="col-md-4"><div class='form-group'>{{ form_widget(lineItemField.rate) }}</div></div>
+                            <div>
+                                <div class="row" id='line-item-row-{{ lineItemField.vars.name }}'>
+                                    <div class="col-md-6"><div class='form-group'>{{ form_widget(lineItemField.description) }}</div></div>
+                                    <div class="col-md-2"><div class='form-group'>{{ form_widget(lineItemField.quantity) }}</div></div>
+                                    <div class="col-md-2"><div class='form-group'>{{ form_widget(lineItemField.rate) }}</div></div>
+                                    <div class="col-md-2"><div class='form-group'><button type="button" onclick="deleteLineItem({{ lineItemField.vars.name }})" class='btn btn-outline-info'><i class='fa fa-trash'></i></button></div></div>
+                                </div>
                             </div>
                             {{ form_errors(lineItemField) }}
                         {% endfor %}
@@ -50,7 +53,7 @@
             </div>
         </div>
     </div>
-    {% include 'partials/crud/_new_edit_actions.html.twig' with {routeNamePrefix: 'quote_', submitLabel: 'Create'} %}
+    {% include 'partials/crud/_new_edit_actions.html.twig' with {routeNamePrefix: 'quote_'} %}
     {{ form_end(form) }}
 {% endblock %}
 

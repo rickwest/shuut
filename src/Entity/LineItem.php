@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints\GreaterThan;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 
@@ -40,7 +41,6 @@ class LineItem
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Quote", inversedBy="lineItems")
-     * @ORM\JoinColumn(nullable=false)
      */
     private $quote;
 
@@ -115,11 +115,19 @@ class LineItem
         return $this;
     }
 
+    public function total() {
+        return number_format($this->getQuantity() * $this->getRate(), 2);
+    }
+
     public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
         $metadata
-            ->addPropertyConstraint('quantity', new NotBlank())
+            ->addPropertyConstraints('quantity', [
+                new NotBlank(),
+                new GreaterThan(['value' => 0])
+            ])
             ->addPropertyConstraint('rate', new NotBlank())
+            ->addPropertyConstraint('description', new NotBlank())
         ;
     }
 }
