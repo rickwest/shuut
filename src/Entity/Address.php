@@ -136,6 +136,17 @@ class Address
         return $this;
     }
 
+    public function __toString()
+    {
+        $str = $this->getCity() . ', ' . $this->getPostcode();
+
+        if ($this->getCountry()) {
+            $str.= ', ' . $this->getCountry();
+        }
+
+        return $str;
+    }
+
     public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
         $metadata
