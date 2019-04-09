@@ -5,6 +5,7 @@
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: 'en'
+    google_maps_api_key: '%env(GOOGLE_MAPS_API_KEY)%'
 
 services:
     # default configuration for services in *this* file
@@ -44,3 +45,12 @@ services:
         arguments:
             - '@doctrine.orm.entity_manager'
         public: true
+
+    GuzzleHttp\Client:
+
+    App\DistanceMatrix\GoogleMapsDistanceMatrix:
+        arguments:
+            - '@GuzzleHttp\Client'
+            - '%google_maps_api_key%'
+
+    App\DistanceMatrix\DistanceMatrixInterface: '@App\DistanceMatrix\GoogleMapsDistanceMatrix'

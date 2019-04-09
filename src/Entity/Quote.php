@@ -75,6 +75,11 @@ class Quote
      */
     private $vehicleType;
 
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Distance", cascade={"persist", "remove"})
+     */
+    private $distance;
+
     public function __construct()
     {
         $this->lineItems = new ArrayCollection();
@@ -189,6 +194,18 @@ class Quote
     public function setVehicleType(?VehicleType $vehicleType): self
     {
         $this->vehicleType = $vehicleType;
+
+        return $this;
+    }
+
+    public function getDistance(): ?Distance
+    {
+        return $this->distance;
+    }
+
+    public function setDistance(?Distance $distance): self
+    {
+        $this->distance = $distance;
 
         return $this;
     }

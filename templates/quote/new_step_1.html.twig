@@ -56,6 +56,8 @@
                             {{ form_row(form.pickUp.country) }}
                         </div>
                     </div>
+                    {{ form_row(form.pickUp.lat) }}
+                    {{ form_row(form.pickUp.lon) }}
                 </div>
             </div>
         </div>
@@ -89,6 +91,8 @@
                             {{ form_row(form.dropOff.country) }}
                         </div>
                     </div>
+                    {{ form_row(form.dropOff.lat) }}
+                    {{ form_row(form.dropOff.lon) }}
                 </div>
             </div>
         </div>
@@ -136,12 +140,18 @@
             // Get the place details from the autocomplete object.
             var place = autocomplete.getPlace();
 
-            // get lat and lon to set on hidden fields
-
+            // Clear existing values
             for (var component in componentForm) {
                 $('#' + prefix + component).val('');
                 $('#' + prefix + component).prop('disabled', false);
             }
+            // Clear hidden values
+            $('#' + prefix + 'lat').val('');
+            $('#' + prefix + 'lon').val('');
+
+            // Get lat and lon and set hidden fields
+            $('#' + prefix + 'lat').val(place.geometry.location.lat());
+            $('#' + prefix + 'lon').val(place.geometry.location.lng());
 
             // Get each component of the address from the place details,
             // and then fill-in the corresponding field on the form.

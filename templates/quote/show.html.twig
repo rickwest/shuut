@@ -44,7 +44,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-4">
             <div class="card">
                 <div class="card-header font-weight-bold">
                     Pick-Up Address
@@ -72,7 +72,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-4">
             <div class="card">
                 <div class="card-header font-weight-bold">
                     Drop-Off Address
@@ -96,6 +96,22 @@
 
                         <dt class="col-sm-3">Country</dt>
                         <dd class="col-sm-9">{{ quote.dropOff.country|default('-') }}</dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header font-weight-bold">
+                    Distance
+                </div>
+                <div class="card-body">
+                    <dl class="row">
+                        <dt class="col-sm-3">Distance</dt>
+                        <dd class="col-sm-9">{{ quote.distance.distanceText }}</dd>
+
+                        <dt class="col-sm-3">Duration</dt>
+                        <dd class="col-sm-9">{{ quote.distance.durationText|default('-') }}</dd>
                     </dl>
                 </div>
             </div>

@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\DistanceMatrix\DistanceMatrixInterface;
 use App\Entity\Quote;
 use App\Form\QuoteStep1Type;
 use App\Form\QuoteStep2Type;
@@ -31,19 +32,20 @@ class QuoteController extends Controller
     /**
      * @Route("/new", name="new", methods={"GET","POST"})
      */
-    public function newStep1(Request $request): Response
+    public function newStep1(Request $request, DistanceMatrixInterface $distanceMatrix): Response
     {
         $quote = new Quote();
         $form = $this->createForm(QuoteStep1Type::class, $quote);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            // We store the distance as an attribute of quote because we don't want to be hitting api unnecessarily
+            $quote->setDistance($distanceMatrix->getDistance($quote->getPickUp(), $quote->getDropOff()));
+
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($quote);
             $entityManager->flush();
-
-            $this->addFlash('success', 'Quote - ' . $quote->getId() . ' was created successfully');
-            //             Calculate distance
 
             return $this->redirectToRoute('quote_new_2', [
                 'id' => $quote->getId(),
@@ -53,6 +55,7 @@ class QuoteController extends Controller
         return $this->render('quote/new_step_1.html.twig', [
             'quote' => $quote,
             'form' => $form->createView(),
+            'googleMapsApiKey' => $this->getParameter('google_maps_api_key'),
         ]);
     }
 
@@ -61,7 +64,7 @@ class QuoteController extends Controller
      * @Route("/edit/{id}", name="edit")
      * @Method("GET, POST")
      */
-    public function newStep2(Request $request, Quote $quote): Response
+    public function newStep2(Request $request, Quote $quote, DistanceMatrixInterface $distanceMatrix): Response
     {
         $form = $this->createForm(QuoteStep2Type::class, $quote);
         $form->handleRequest($request);
@@ -81,6 +84,7 @@ class QuoteController extends Controller
         return $this->render('quote/new_edit.html.twig', [
             'quote' => $quote,
             'form' => $form->createView(),
+            'map' => $distanceMatrix->getMap($quote->getPickUp(), $quote->getDropOff())
         ]);
     }
 

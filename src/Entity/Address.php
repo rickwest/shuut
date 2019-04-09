@@ -54,6 +54,16 @@ class Address
      */
     private $quotes;
 
+    /**
+     * @ORM\Column(type="string", length=32, nullable=true)
+     */
+    private $lat;
+
+    /**
+     * @ORM\Column(type="string", length=32, nullable=true)
+     */
+    private $lon;
+
     public function __construct()
     {
         $this->quotes = new ArrayCollection();
@@ -132,6 +142,30 @@ class Address
     public function setCountry(?string $country): self
     {
         $this->country = $country;
+
+        return $this;
+    }
+
+    public function getLat()
+    {
+        return $this->lat;
+    }
+
+    public function setLat($lat): self
+    {
+        $this->lat = $lat;
+
+        return $this;
+    }
+
+    public function getLon()
+    {
+        return $this->lon;
+    }
+
+    public function setLon($lon): self
+    {
+        $this->lon = $lon;
 
         return $this;
     }
