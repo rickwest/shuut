@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Table\Table;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
@@ -11,17 +12,6 @@ use Symfony\Component\Validator\Mapping\ClassMetadata;
  */
 class Vehicle
 {
-    public static $tableMeta = [
-        'sortColumn' => 'id',
-        'routeNamePrefix' => 'vehicle_',
-        'view' => [
-            'registration' => 'Registration',
-            'vehicleType' => 'Type',
-            'make' => 'Make',
-            'model' => 'Model'
-        ],
-    ];
-
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -160,6 +150,20 @@ class Vehicle
             ->addPropertyConstraint('make', new NotBlank())
             ->addPropertyConstraint('model', new NotBlank())
             ->addPropertyConstraint('vehicleType', new NotBlank())
+        ;
+    }
+
+    public static function setTableMetadata(Table $table)
+    {
+        $table
+            ->setRouteNamePrefix('vehicle_')
+            ->setSortColumns(['make', 'model', 'registration', 'vehicleType'])
+            ->setView([
+                'registration' => 'Registration',
+                'vehicleType' => 'Type',
+                'make' => 'Make',
+                'model' => 'Model'
+            ])
         ;
     }
 }

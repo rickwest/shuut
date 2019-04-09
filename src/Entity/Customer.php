@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Table\Table;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -11,18 +12,6 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Customer
 {
-    public static $tableMeta = [
-        'sortColumn' => 'id',
-        'routeNamePrefix' => 'customer_',
-        'view' => [
-            'accountRef' => 'Account Ref',
-            'name' => 'Name',
-            'contactName' => 'Contact Name',
-            'telephone' => 'Telephone',
-            'email' => 'Email'
-        ],
-    ];
-
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -199,5 +188,20 @@ class Customer
     public function __toString()
     {
         return $this->getName();
+    }
+
+    public static function setTableMetadata(Table $table)
+    {
+        $table
+            ->setRouteNamePrefix('customer_')
+            ->setSortColumns(['accountRef', 'name', 'contactName', 'email'])
+            ->setView([
+                'accountRef' => 'Account Ref',
+                'name' => 'Name',
+                'contactName' => 'Contact Name',
+                'telephone' => 'Telephone',
+                'email' => 'Email'
+            ])
+        ;
     }
 }

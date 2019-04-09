@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Vehicle;
+use App\Table\TableQueryInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
@@ -12,7 +13,7 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  * @method Vehicle[]    findAll()
  * @method Vehicle[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class VehicleRepository extends ServiceEntityRepository
+class VehicleRepository extends ServiceEntityRepository implements TableQueryInterface
 {
     public function __construct(RegistryInterface $registry)
     {

@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Table\Table;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -11,17 +12,6 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Driver
 {
-    public static $tableMeta = [
-        'sortColumn' => 'id',
-        'routeNamePrefix' => 'driver_',
-        'view' => [
-            'tradingName' => 'Trading Name',
-            'name' => 'Name',
-            'telephone' => 'Telephone',
-            'email' => 'Email'
-        ],
-    ];
-
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -193,5 +183,19 @@ class Driver
         }
 
         return $this;
+    }
+
+    public static function setTableMetadata(Table $table)
+    {
+        $table
+            ->setRouteNamePrefix('driver_')
+            ->setSortColumns(['tradingName', 'name', 'email'])
+            ->setView([
+                'tradingName' => 'Trading Name',
+                'name' => 'Name',
+                'telephone' => 'Telephone',
+                'email' => 'Email'
+            ])
+        ;
     }
 }

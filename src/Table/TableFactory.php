@@ -21,16 +21,25 @@ class TableFactory
 
     public function getTable(Request $request, $entity)
     {
+        $repository = $this->em->getRepository($entity);
+
+        if (! $repository instanceof TableQueryInterface) {
+            throw new \Exception('Trying to get a table for entity: ' . $entity . ' but repository does not implement ' . TableQueryInterface::class);
+        };
+
         $table = new Table();
 
-        $query = $this->em->getRepository($entity)->getTableQuery(
-            $request->get('sort', $entity::$tableMeta['sortColumn']),
+        if (method_exists($entity,'setTableMetadata')) {
+            $entity::setTableMetadata($table);
+        }
+
+        $query = $repository->getTableQuery(
+            $request->get('sort', $table->getDefaultSortColumn()),
             $request->get('order', 'ASC'),
             $request->get('q')
         );
 
-        $table->pager = $this->createPaginator($query, $request->get('page', 1));
-        $table->tableMeta = $entity::$tableMeta;
+        $table->setPager($this->createPaginator($query, $request->get('page', 1)));
 
         return $table;
     }

@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Driver;
+use App\Table\TableQueryInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
@@ -12,7 +13,7 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  * @method Driver[]    findAll()
  * @method Driver[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class DriverRepository extends ServiceEntityRepository
+class DriverRepository extends ServiceEntityRepository implements TableQueryInterface
 {
     public function __construct(RegistryInterface $registry)
     {
