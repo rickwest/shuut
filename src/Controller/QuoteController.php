@@ -4,8 +4,8 @@ namespace App\Controller;
 
 use App\DistanceMatrix\DistanceMatrixInterface;
 use App\Entity\Quote;
-use App\Form\QuoteStep1Type;
-use App\Form\QuoteStep2Type;
+use App\Form\QuoteEditType;
+use App\Form\QuoteType;
 use App\Table\TableFactory;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -32,10 +32,10 @@ class QuoteController extends Controller
     /**
      * @Route("/new", name="new", methods={"GET","POST"})
      */
-    public function newStep1(Request $request, DistanceMatrixInterface $distanceMatrix): Response
+    public function new(Request $request, DistanceMatrixInterface $distanceMatrix): Response
     {
         $quote = new Quote();
-        $form = $this->createForm(QuoteStep1Type::class, $quote);
+        $form = $this->createForm(QuoteType::class, $quote);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -52,7 +52,7 @@ class QuoteController extends Controller
             ]);
         }
 
-        return $this->render('quote/new_step_1.html.twig', [
+        return $this->render('quote/new.html.twig', [
             'quote' => $quote,
             'form' => $form->createView(),
             'googleMapsApiKey' => $this->getParameter('google_maps_api_key'),
@@ -64,9 +64,9 @@ class QuoteController extends Controller
      * @Route("/edit/{id}", name="edit")
      * @Method("GET, POST")
      */
-    public function newStep2(Request $request, Quote $quote, DistanceMatrixInterface $distanceMatrix): Response
+    public function newEdit(Request $request, Quote $quote, DistanceMatrixInterface $distanceMatrix): Response
     {
-        $form = $this->createForm(QuoteStep2Type::class, $quote);
+        $form = $this->createForm(QuoteEditType::class, $quote);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
