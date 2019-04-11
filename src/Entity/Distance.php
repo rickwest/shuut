@@ -100,4 +100,9 @@ class Distance
 
         return $hours > 0 ? $hours . ' hours ' . $minutes . ' minutes' : $minutes . ' minutes';
     }
+
+    public function __toString()
+    {
+        return $this->distanceText();
+    }
 }
