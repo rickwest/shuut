@@ -128,11 +128,11 @@
             // When the user selects an address from the drop-down, populate the
             // address fields in the form.
             originAutocomplete.addListener('place_changed', function () {
-                fillInAddress(originAutocomplete, 'quote_step1_pickUp_')
+                fillInAddress(originAutocomplete, 'quote_pickUp_')
             });
-
+            
             destinationAutocomplete.addListener('place_changed', function () {
-                fillInAddress(destinationAutocomplete, 'quote_step1_dropOff_')
+                fillInAddress(destinationAutocomplete, 'quote_dropOff_')
             });
         }
 
@@ -159,7 +159,6 @@
                 var addressType = place.address_components[i].types[0];
 
                 for (var component in componentForm) {
-                    // console.log(componentForm[component][0]);
                     if (componentForm[component][0] == addressType) {
                         var val = place.address_components[i][componentForm[component][1]];
                         $('#' + prefix + component).val(val);
