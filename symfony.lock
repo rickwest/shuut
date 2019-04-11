@@ -95,6 +95,9 @@
     "fig/link-util": {
         "version": "1.0.0"
     },
+    "fzaninotto/faker": {
+        "version": "v1.8.0"
+    },
     "guzzlehttp/guzzle": {
         "version": "6.3.3"
     },
@@ -115,6 +118,9 @@
     },
     "ocramius/proxy-manager": {
         "version": "2.0.4"
+    },
+    "pagerfanta/pagerfanta": {
+        "version": "v2.1.1"
     },
     "phpdocumentor/reflection-common": {
         "version": "1.0.1"
@@ -442,6 +448,9 @@
     },
     "webmozart/assert": {
         "version": "1.4.0"
+    },
+    "white-october/pagerfanta-bundle": {
+        "version": "v1.2.4"
     },
     "zendframework/zend-code": {
         "version": "3.1.0"
