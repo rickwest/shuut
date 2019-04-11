@@ -68,7 +68,7 @@ class Distance
      */
     public function distanceMiles()
     {
-        return round($this->distance / self::METRES_TO_MILES);
+        return round($this->distance / self::METRES_TO_MILES, 1);
     }
 
     /**
@@ -98,6 +98,6 @@ class Distance
 
         list($hours, $minutes) = $this->durationHoursMinutes();
 
-        return $hours . ' hours ' . $minutes . ' minutes';
+        return $hours > 0 ? $hours . ' hours ' . $minutes . ' minutes' : $minutes . ' minutes';
     }
 }
