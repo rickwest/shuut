@@ -14,17 +14,13 @@
 
             <a class="nav-link nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
                 <div class="avatar-circle">
-                    <span class="initials">NE</span>
+                    <span class="initials">{{ app.user.username|slice(0,1)|upper }}</span>
                 </div>
             </a>
             <div class="dropdown-menu dropdown-menu-right">
                 <div class="dropdown-header text-center">
                     <strong>Settings</strong>
                 </div>
-                <a class="dropdown-item" href="#">
-                    <i class="fa fa-user"></i> Profile</a>
-                <a class="dropdown-item" href="#">
-                    <i class="fa fa-wrench"></i> Settings</a>
                 <a class="dropdown-item" href="{{ url('logout') }}">
                     <i class="fa fa-lock"></i> Logout</a>
             </div>
