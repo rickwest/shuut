@@ -20,7 +20,7 @@ class DriverRepository extends ServiceEntityRepository implements TableQueryInte
         parent::__construct($registry, Driver::class);
     }
 
-    public function getTableQuery(string $sort, string $order, $q = null)
+    public function getTableQuery($sort, $order, $q = null)
     {
         $qb = $this->createQueryBuilder('d');
 

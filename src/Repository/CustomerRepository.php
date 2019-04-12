@@ -20,7 +20,7 @@ class CustomerRepository extends ServiceEntityRepository implements TableQueryIn
         parent::__construct($registry, Customer::class);
     }
 
-    public function getTableQuery(string $sort, string $order, $q = null)
+    public function getTableQuery($sort, $order, $q = null)
     {
         $qb = $this->createQueryBuilder('c');
 

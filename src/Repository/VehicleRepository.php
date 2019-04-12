@@ -20,7 +20,7 @@ class VehicleRepository extends ServiceEntityRepository implements TableQueryInt
         parent::__construct($registry, Vehicle::class);
     }
 
-    public function getTableQuery(string $sort, string $order, $q = null)
+    public function getTableQuery($sort, $order, $q = null)
     {
         $qb = $this->createQueryBuilder('v');
 

@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Quote;
+use App\Table\TableQueryInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
@@ -12,14 +13,14 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  * @method Quote[]    findAll()
  * @method Quote[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class QuoteRepository extends ServiceEntityRepository
+class QuoteRepository extends ServiceEntityRepository implements TableQueryInterface
 {
     public function __construct(RegistryInterface $registry)
     {
         parent::__construct($registry, Quote::class);
     }
 
-    public function getTableQuery(string $sort, string $order, $q = null)
+    public function getTableQuery($sort, $order, $q = null)
     {
         $qb = $this->createQueryBuilder('q');
 
