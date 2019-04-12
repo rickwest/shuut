@@ -24,6 +24,15 @@ class QuoteRepository extends ServiceEntityRepository implements TableQueryInter
     {
         $qb = $this->createQueryBuilder('q');
 
+        $qb
+            ->where('q.status = :incomplete')
+            ->orWhere('q.status = :complete')
+            ->setParameters([
+                'incomplete' => Quote::STATUS_INCOMPLETE,
+                'complete' => Quote::STATUS_COMPLETE,
+            ])
+        ;
+
         if ($q) {
             $qb
                 ->join('q.customer', 'c')

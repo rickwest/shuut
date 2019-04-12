@@ -210,6 +210,8 @@ class Quote
     {
         $this->setJob(new Job());
 
+        $this->setStatus(self::STATUS_ACCEPTED);
+
         return $this;
     }
 
