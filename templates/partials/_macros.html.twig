@@ -30,7 +30,17 @@
         {% for item in table.pager.currentPageResults %}
             <tr>
             {% for col, head in table.view %}
-                <td>{{ attribute(item, col) }}</td>
+                {% if col == 'status' %}
+                    {% if attribute(item, col) is same as(constant('App\\Entity\\Quote::STATUS_INCOMPLETE')) %}
+                        <td><span class="badge badge-warning">{{ attribute(item, col) }}</span></td>
+                    {% elseif attribute(item, col) is same as(constant('App\\Entity\\Quote::STATUS_COMPLETE')) %}
+                        <td><span class="badge badge-success">{{ attribute(item, col) }}</span></td>
+                    {% else %}
+                        <td>{{ attribute(item, col) }}</td>
+                    {% endif %}
+                {% else %}
+                    <td>{{ attribute(item, col) }}</td>
+                {% endif %}
             {% endfor %}
             {% if table.routeNamePrefix %}
                 <td>

@@ -24,15 +24,21 @@ class QuoteRepository extends ServiceEntityRepository implements TableQueryInter
     {
         $qb = $this->createQueryBuilder('q');
 
-//        if ($q) {
-//            $qb
-////                ->where('q.name LIKE :search')
-////                ->orWhere('c.accountRef LIKE :search')
-////                ->setParameter('search', '%' . $q . '%')
-//            ;
-//        }
+        if ($q) {
+            $qb
+                ->join('q.customer', 'c')
+                ->where('c.name LIKE :search')
+                ->setParameter('search', '%' . $q . '%')
+            ;
+        }
 
-        $qb->orderBy('q.' . $sort, $order);
+        if ($sort === 'customer') {
+            $qb->join('q.customer', 'c')->orderBy('c.name', $order);
+        } elseif ($sort === 'distance')
+            $qb->join('q.distance', 'd')->orderBy('d.distance', $order);
+        else {
+            $qb->orderBy('q.' . $sort, $order);
+        }
 
         return $qb->getQuery();
     }

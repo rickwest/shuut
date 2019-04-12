@@ -25,7 +25,6 @@ class QuoteController extends Controller
     {
         return $this->render('quote/index.html.twig', [
             'table' => $tableFactory->getTable($request, Quote::class),
-//            'quotes' => $quoteRepository->findAll(),
         ]);
     }
 
@@ -70,6 +69,11 @@ class QuoteController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $quote->setStatus(
+                $quote->getLineItems()->count() > 0 ? Quote::STATUS_COMPLETE : Quote::STATUS_INCOMPLETE
+            );
+
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($quote);
             $entityManager->flush();
@@ -84,7 +88,7 @@ class QuoteController extends Controller
         return $this->render('quote/new_edit.html.twig', [
             'quote' => $quote,
             'form' => $form->createView(),
-            'map' => $distanceMatrix->getMap($quote->getPickUp(), $quote->getDropOff())
+            'map' => $quote->getDistance() ? $distanceMatrix->getMap($quote->getPickUp(), $quote->getDropOff()) : null,
         ]);
     }
 
@@ -93,7 +97,7 @@ class QuoteController extends Controller
      */
     public function show(Quote $quote): Response
     {
-        if ($quote->status() === Quote::STATUS_ACCEPTED) {
+        if ($quote->getStatus() === Quote::STATUS_ACCEPTED) {
             return $this->redirectToRoute('job_show', [
                 'id' => $quote->getJob()->getId(),
             ]);

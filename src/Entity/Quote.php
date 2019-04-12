@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Table\Table;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -17,17 +18,6 @@ class Quote
     const STATUS_INCOMPLETE = 'Incomplete';
     const STATUS_COMPLETE = 'Complete';
     const STATUS_ACCEPTED = 'Accepted';
-
-    public static $tableMeta = [
-        'sortColumn' => 'id',
-        'routeNamePrefix' => 'quote_',
-        'view' => [
-            'customer' => 'Customer',
-            'pickUp' => 'Pick Up',
-            'dropOff' => 'Drop Off',
-            'status' => 'Status',
-        ],
-    ];
 
     /**
      * @ORM\Id()
@@ -70,7 +60,7 @@ class Quote
     private $job;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\VehicleType", inversedBy="quotes")
+     * @ORM\ManyToOne(targetEntity="App\Entity\VehicleType")
      * @ORM\JoinColumn(nullable=false)
      */
     private $vehicleType;
@@ -80,9 +70,15 @@ class Quote
      */
     private $distance;
 
+    /**
+     * @ORM\Column(type="string", length=32)
+     */
+    private $status;
+
     public function __construct()
     {
         $this->lineItems = new ArrayCollection();
+        $this->status = self::STATUS_INCOMPLETE;
     }
 
     public function getId(): ?int
@@ -217,17 +213,16 @@ class Quote
         return $this;
     }
 
-    public function status()
+    public function getStatus(): ?string
     {
-        if ($this->getLineItems()->isEmpty()) {
-            return self::STATUS_INCOMPLETE;
-        };
+        return $this->status;
+    }
 
-        if ($this->getJob()) {
-            return self::STATUS_ACCEPTED;
-        }
+    public function setStatus(string $status): self
+    {
+        $this->status = $status;
 
-        return self::STATUS_COMPLETE;
+        return $this;
     }
 
     public function getTotals() {
@@ -242,6 +237,21 @@ class Quote
             ->addPropertyConstraint('pickUp', new Valid())
             ->addPropertyConstraint('dropOff', new Valid())
             ->addPropertyConstraint('lineItems', new Valid())
+        ;
+    }
+
+    public static function setTableMetadata(Table $table)
+    {
+        $table
+            ->setRouteNamePrefix('quote_')
+            ->setSortColumns(['customer', 'distance', 'status'])
+            ->setView([
+                'customer' => 'Customer',
+                'pickUp' => 'Pick Up',
+                'dropOff' => 'Drop Off',
+                'distance' => 'Distance',
+                'status' => 'Status',
+            ])
         ;
     }
 }

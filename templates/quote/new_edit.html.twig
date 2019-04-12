@@ -9,6 +9,7 @@
 {% block content %}
     {{ form_start(form, {attr: {novalidate: true}}) }}
     <div class="row">
+        {% if map %}
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header font-weight-bold">
@@ -24,6 +25,7 @@
                 </div>
             </div>
         </div>
+        {% endif %}
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header">
@@ -33,19 +35,19 @@
                     {# store the prototype on the data-prototype attribute #}
                     <div id="line-items-fields-list" data-widget-tags="{{ "<div></div>"}}" data-prototype="
                         <div class='row' id='line-item-row-{{ form.lineItems.vars.prototype.vars.name }}'>
-                            <div class='col-md-6'><div class='form-group'>{{ form_widget(form.lineItems.vars.prototype.description)|e }}</div></div>
+                            <div class='col-md-7'><div class='form-group'>{{ form_widget(form.lineItems.vars.prototype.description)|e }}</div></div>
                             <div class='col-md-2'><div class='form-group'>{{ form_widget(form.lineItems.vars.prototype.quantity)|e }}</div></div>
                             <div class='col-md-2'><div class='form-group'>{{ form_widget(form.lineItems.vars.prototype.rate)|e }}</div></div>
-                            <div class='col-md-2'><div class='form-group'><button type='button' onclick='deleteLineItem({{ form.lineItems.vars.prototype.vars.name }})' class='btn btn-outline-info'><i class='fa fa-trash'></i></button></div></div>
+                            <div class='col-md-1'><div class='form-group'><button type='button' onclick='deleteLineItem({{ form.lineItems.vars.prototype.vars.name }})' class='btn btn-outline-danger'><i class='fa fa-trash'></i></button></div></div>
                         </div>">
 
                         {% for lineItemField in form.lineItems %}
                             <div>
                                 <div class="row" id='line-item-row-{{ lineItemField.vars.name }}'>
-                                    <div class="col-md-6"><div class='form-group'>{{ form_widget(lineItemField.description) }}</div></div>
+                                    <div class="col-md-7"><div class='form-group'>{{ form_widget(lineItemField.description) }}</div></div>
                                     <div class="col-md-2"><div class='form-group'>{{ form_widget(lineItemField.quantity) }}</div></div>
                                     <div class="col-md-2"><div class='form-group'>{{ form_widget(lineItemField.rate) }}</div></div>
-                                    <div class="col-md-2"><div class='form-group'><button type="button" onclick="deleteLineItem({{ lineItemField.vars.name }})" class='btn btn-outline-info'><i class='fa fa-trash'></i></button></div></div>
+                                    <div class="col-md-1"><div class='form-group'><button type="button" onclick="deleteLineItem({{ lineItemField.vars.name }})" class='btn btn-outline-danger'><i class='fa fa-trash'></i></button></div></div>
                                 </div>
                             </div>
                             {{ form_errors(lineItemField) }}
