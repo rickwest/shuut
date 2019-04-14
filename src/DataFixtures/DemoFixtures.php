@@ -33,8 +33,19 @@ class DemoFixtures extends Fixture
             ->setEmail('admin@test.com')
             ->setIsActive(true)
         ;
+        $password = $this->encoder->encodePassword($user, '20E!xI&$Zx');
+        $user->setPassword($password);
 
-        $password = $this->encoder->encodePassword($user, 'admin');
+        $manager->persist($user);
+
+
+        $user = new User();
+        $user
+            ->setUsername('pete')
+            ->setEmail('P.C.Collingwood@shu.ac.uk')
+            ->setIsActive(true)
+        ;
+        $password = $this->encoder->encodePassword($user, 'shuoop');
         $user->setPassword($password);
 
         $manager->persist($user);
@@ -57,9 +68,9 @@ class DemoFixtures extends Fixture
         for ($i = 0; $i < 15; $i++) {
             $vehicle = new Vehicle();
             $vehicle
-                ->setRegistration($this->vehicleReg())
-                ->setModel($this->faker->word)
-                ->setMake($this->faker->word)
+                ->setRegistration(strtoupper($this->vehicleReg()))
+                ->setModel(ucfirst($this->faker->word))
+                ->setMake(ucfirst($this->faker->word))
                 ->setVehicleType($manager->getReference(VehicleType::class, $this->vehicleTypes()[array_rand($this->vehicleTypes())]))
                 ->setDepth($this->faker->randomFloat(2, 0, 100))
                 ->setWidth($this->faker->randomFloat(2, 0, 100))
