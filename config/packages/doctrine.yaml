@@ -16,11 +16,11 @@ doctrine:
 #            collate: utf8mb4_unicode_ci
 
         driver: 'pdo_postgresql'
-#            server_version: '5.7'
+#               server_version: '5.7'
+        charset: utf8
+        default_table_options:
             charset: utf8
-            default_table_options:
-                charset: utf8
-                collate: utf8_unicode_ci
+            collate: utf8_unicode_ci
 
         url: '%env(resolve:DATABASE_URL)%'
     orm:
