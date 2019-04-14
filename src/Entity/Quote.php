@@ -227,8 +227,23 @@ class Quote
         return $this;
     }
 
-    public function getTotals() {
-        return 'total';
+    public function subtotal()
+    {
+        $subtotal = 0;
+        foreach ($this->getLineItems() as $item) {
+            $subtotal += $item->total();
+        }
+        return number_format($subtotal, 2);
+    }
+
+    public function vat()
+    {
+        return number_format($this->subtotal() * 0.2, 2);
+    }
+
+    public function total()
+    {
+        return number_format($this->subtotal() + $this->vat(), 2);
     }
 
     public static function loadValidatorMetadata(ClassMetadata $metadata)

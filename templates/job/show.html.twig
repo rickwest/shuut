@@ -156,21 +156,21 @@
                                 <tr>
                                     <td>{{ item.description }}</td>
                                     <td>{{ item.quantity }}</td>
-                                    <td>{{ item.rate }}</td>
-                                    <td>{{ item.total }}</td>
+                                    <td>&pound; {{ item.rate }}</td>
+                                    <td>&pound; {{ item.total }}</td>
                                 </tr>
                             {% endfor %}
                             <tr class="">
                                 <td colspan="3" class="font-weight-bold text-right">Subtotal</td>
-                                <td>Subtotal</td>
+                                <td>&pound; {{ job.quote.subtotal }}</td>
                             </tr>
                             <tr>
                                 <td colspan="3" class="font-weight-bold text-right">VAT (20%)</td>
-                                <td>Subtotal</td>
+                                <td>&pound; {{ job.quote.vat }}</td>
                             </tr>
                             <tr>
                                 <td colspan="3" class="font-weight-bold text-right">Total</td>
-                                <td>Subtotal</td>
+                                <td>&pound; {{ job.quote.total }}</td>
                             </tr>
                             </tbody>
                         </table>
@@ -185,7 +185,7 @@
                         Invoice
                     </div>
                     <div class="card-body">
-
+                        <a class="btn btn-dark btn-block" href="{{ path('job_invoice', {id: job.id}) }}"><i class="fa fa-money"></i> Invoice</a>
                     </div>
                 </div>
             </div>

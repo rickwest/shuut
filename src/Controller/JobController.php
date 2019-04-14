@@ -89,4 +89,14 @@ class JobController extends Controller
             'id' => $job->getId(),
         ]);
     }
+
+    /**
+     * @Route("/invoice/{id}", name="invoice", methods={"GET"})
+     */
+    public function invoice(Job $job): Response
+    {
+        return $this->render('invoice/invoice.html.twig', [
+            'job' => $job,
+        ]);
+    }
 }

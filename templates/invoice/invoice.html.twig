@@ -1,0 +1,101 @@
+{% extends 'layouts/admin.html.twig' %}
+
+{% block title %}Jobs{% endblock %}
+
+{% block headerContent %}
+    <h1 class="h3">Invoice<small class="text-muted"> - {{ job.id }}</small></h1>
+{% endblock %}
+
+{% block content %}
+    <div class="card">
+        <div class="card-header">Invoice
+            <strong>#{{ job.id }}</strong>
+            <a class="btn btn-sm btn-secondary float-right mr-1 d-print-none" href="#" onclick="javascript:window.print();">
+                <i class="fa fa-print"></i> Print</a>
+        </div>
+        <div class="card-body">
+            <div class="row mb-4">
+                <div class="col-sm-4">
+                    <h6 class="mb-3">From:</h6>
+                    <div>
+                        <strong>Flash Couriers</strong>
+                    </div>
+                    <div>Courier House</div>
+                    <div>Delivery Way</div>
+                    <div>Sheffield, S1 2EP</div>
+                    <div>Email: accounts@likeaflash.co.uk</div>
+                </div>
+
+                <div class="col-sm-4">
+                    <h6 class="mb-3">To:</h6>
+                    <div>
+                        <strong>{{ job.quote.customer.name }}</strong>
+                    </div>
+                    <div>{{ job.quote.customer.address.line1 }}</div>
+                    <div>{{ job.quote.customer.address.city }}</div>
+                    <div>{{ job.quote.customer.address.postcode }}</div>
+                    <div>Email: {{ job.quote.customer.email }}</div>
+                    <div>Phone: {{ job.quote.customer.telephone }}</div>
+                </div>
+
+                <div class="col-sm-4">
+                    <h6 class="mb-3">Details:</h6>
+                    <div>Invoice
+                        <strong>#{{ job.id }}</strong>
+                    </div>
+                    <div>{{ 'now'|date }}</div>
+                </div>
+            </div>
+
+            <div class="table-responsive-sm">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>Description</th>
+                        <th>Quantity</th>
+                        <th>Rate</th>
+                        <th>Total</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for item in job.quote.lineItems %}
+                        <tr>
+                            <td>{{ item.description }}</td>
+                            <td>{{ item.quantity }}</td>
+                            <td>&pound; {{ item.rate }}</td>
+                            <td>&pound; {{ item.total }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="row">
+                <div class="col-lg-4 col-sm-5">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
+                    dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</div>
+                <div class="col-lg-4 col-sm-5 ml-auto">
+                    <table class="table table-clear">
+                        <tbody>
+                        <tr>
+                            <td><strong>Subtotal</strong></td>
+                            <td>&pound; {{ job.quote.subtotal }}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>VAT (20%)</strong></td>
+                            <td>&pound; {{ job.quote.vat }}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Total</strong></td>
+                            <td><strong>&pound; {{ job.quote.total }}</strong></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mb-4">
+        <div class="col">
+            <a class="btn btn-ghost-primary" href="{{ path('job_show', {id: job.id}) }}">Back to Job</a>
+        </div>
+    </div>
+{% endblock %}

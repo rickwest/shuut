@@ -138,21 +138,21 @@
                                 <tr>
                                     <td>{{ item.description }}</td>
                                     <td>{{ item.quantity }}</td>
-                                    <td>{{ item.rate }}</td>
-                                    <td>{{ item.total }}</td>
+                                    <td>&pound; {{ item.rate }}</td>
+                                    <td>&pound; {{ item.total }}</td>
                                 </tr>
                             {% endfor %}
                             <tr class="">
                                 <td colspan="3" class="font-weight-bold text-right">Subtotal</td>
-                                <td>Subtotal</td>
+                                <td>&pound; {{ quote.subtotal }}</td>
                             </tr>
                             <tr>
                                 <td colspan="3" class="font-weight-bold text-right">VAT (20%)</td>
-                                <td>Subtotal</td>
+                                <td>&pound; {{ quote.vat }}</td>
                             </tr>
                             <tr>
                                 <td colspan="3" class="font-weight-bold text-right">Total</td>
-                                <td>Subtotal</td>
+                                <td>&pound; {{ quote.total }}</td>
                             </tr>
                             </tbody>
                         </table>
