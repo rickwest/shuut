@@ -143,6 +143,11 @@ class Vehicle
         return $this;
     }
 
+    public function __toString()
+    {
+        return $this->getRegistration();
+    }
+
     public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
         $metadata
