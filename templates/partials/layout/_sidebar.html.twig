@@ -2,11 +2,29 @@
     <nav class="sidebar-nav">
         <ul class="nav">
             {% for item in menu.items %}
-            <li class="nav-item">
-                <a class="{{ item.classes|default('nav-link') }}" href="{{ item.url }}">
-                    <i class="nav-icon {{ item.icon }}"></i> {{ item.label }}
-                </a>
-            </li>
+                {% if item.isTitle == true %}
+                    <li class="nav-title">{{ item.label }}</li>
+                {% elseif item.children|length > 0 %}
+                    <li class="nav-item nav-dropdown {% for child in item.children %}{{ child.url == app.request.requestUri ? 'open' : '' }}{% endfor %}">
+                        <a class="nav-link nav-dropdown-toggle" href="#">
+                            <i class="nav-icon {{ item.icon }}"></i> {{ item.label }}</a>
+                        <ul class="nav-dropdown-items">
+                            {% for child in item.children %}
+                                <li class="nav-item">
+                                    <a class="nav-link {{ child.url == app.request.requestUri ? 'active' : '' }}" href="{{ child.url }}">
+                                        <i class="nav-icon {{ child.icon }}"></i> {{ child.label }}
+                                    </a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link {{ item.url == app.request.requestUri ? 'active' : '' }}" href="{{ item.url }}">
+                            <i class="nav-icon {{ item.icon }}"></i> {{ item.label }}
+                        </a>
+                    </li>
+                {% endif %}
             {% endfor %}
         </ul>
     </nav>

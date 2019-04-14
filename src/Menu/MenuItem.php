@@ -26,6 +26,8 @@ class MenuItem
     /** @var MenuItem[] */
     private $children = [];
 
+    private $isTitle = false;
+
     /**
      * MenuItem constructor.
      * @param string $url
@@ -55,6 +57,9 @@ class MenuItem
         }
         if (array_key_exists('icon', $options)) {
             $this->icon = $options['icon'];
+        }
+        if (array_key_exists('isTitle', $options)) {
+            $this->isTitle = $options['isTitle'];
         }
     }
 
@@ -173,6 +178,24 @@ class MenuItem
     public function setIcon(string $icon): MenuItem
     {
         $this->icon = $icon;
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isTitle(): bool
+    {
+        return $this->isTitle;
+    }
+
+    /**
+     * @param bool $isTitle
+     * @return MenuItem
+     */
+    public function setIsTitle(bool $isTitle): MenuItem
+    {
+        $this->isTitle = $isTitle;
         return $this;
     }
 }

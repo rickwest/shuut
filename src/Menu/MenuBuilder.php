@@ -42,9 +42,14 @@ class MenuBuilder
         if ($this->security->getToken() && $this->security->isGranted('ROLE_ADMIN')) {
             $menu
                 ->addItem($this->item('index', 'Dashboard', ['icon' => 'icon-speedometer']))
-                ->addItem($this->item('customer_index', 'Customers', ['icon' => 'icon-people']))
-                ->addItem($this->item('quote_index', 'Quotes', ['icon' => 'icon-location-pin']))
+                ->addItem($this->item('', 'Jobs', ['isTitle' => true]))
                 ->addItem($this->item('job_index', 'Jobs', ['icon' => 'icon-directions']))
+                ->addItem($this->item('', 'Quotes', ['isTitle' => true]))
+                ->addItem($this->item('', 'Quotes', ['icon' => 'icon-map'])
+                    ->addChild($this->item('quote_index', 'Quotes', ['icon' => 'icon-map']))
+                    ->addChild($this->item('quote_new', 'New Quote', ['icon' => 'icon-plus'])))
+                ->addItem($this->item('', 'Assets', ['isTitle' => true]))
+                ->addItem($this->item('customer_index', 'Customers', ['icon' => 'icon-layers']))
                 ->addItem($this->item('vehicle_index', 'Vehicles', ['icon' => 'icon-rocket']))
                 ->addItem($this->item('driver_index', 'Drivers', ['icon' => 'icon-people']))
             ;
@@ -63,6 +68,6 @@ class MenuBuilder
      */
     public function item($route, $label, $options)
     {
-        return new MenuItem($this->router->generate($route), $label, $options);
+        return new MenuItem(empty($route) ? '' : $this->router->generate($route), $label, $options);
     }
 }
