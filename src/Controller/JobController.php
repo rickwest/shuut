@@ -4,93 +4,89 @@ namespace App\Controller;
 
 use App\Entity\Job;
 use App\Form\JobType;
-use App\Repository\JobRepository;
+use App\Table\TableFactory;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/job")
+ * @Route("/job", name="job_")
  */
 class JobController extends Controller
 {
     /**
-     * @Route("/", name="job_index", methods={"GET"})
+     * @Route("/", name="index", methods={"GET"})
      */
-    public function index(JobRepository $jobRepository): Response
+    public function index(Request $request, TableFactory $tableFactory): Response
     {
         return $this->render('job/index.html.twig', [
-            'jobs' => $jobRepository->findAll(),
+            'table' => $tableFactory->getTable($request, Job::class),
         ]);
     }
 
     /**
-     * @Route("/new", name="job_new", methods={"GET","POST"})
+     * @Route("/{id}", name="show", methods={"GET", "POST"})
      */
-    public function new(Request $request): Response
+    public function show(Request $request, Job $job): Response
     {
-        $job = new Job();
-        $form = $this->createForm(JobType::class, $job);
-        $form->handleRequest($request);
+        if (! $job->isComplete()) {
+            $form = $this->createForm(JobType::class, $job);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($job);
-            $entityManager->flush();
+            $form->handleRequest($request);
 
-            return $this->redirectToRoute('job_index');
+            if ($form->isSubmitted() && $form->isValid()) {
+                $this->getDoctrine()->getManager()->flush();
+
+                $this->addFlash('success', 'Job - ' . $job->getId() . ' was updated successfully');
+
+                return $this->redirectToRoute('job_show', [
+                    'id' => $job->getId(),
+                ]);
+            }
         }
 
-        return $this->render('job/new.html.twig', [
-            'job' => $job,
-            'form' => $form->createView(),
-        ]);
-    }
-
-    /**
-     * @Route("/{id}", name="job_show", methods={"GET"})
-     */
-    public function show(Job $job): Response
-    {
         return $this->render('job/show.html.twig', [
             'job' => $job,
+            'form' => isset($form) ? $form->createView() : null,
         ]);
     }
 
     /**
-     * @Route("/{id}/edit", name="job_edit", methods={"GET","POST"})
+     * @Route("/complete/{id}", name="complete", methods={"POST"})
      */
-    public function edit(Request $request, Job $job): Response
+    public function complete(Request $request, Job $job)
     {
-        $form = $this->createForm(JobType::class, $job);
-        $form->handleRequest($request);
+        if ($this->isCsrfTokenValid('complete'.$job->getId(), $request->request->get('_token')) && $job->canBeCompleted()) {
+            $job->complete();
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
-
-            return $this->redirectToRoute('job_index', [
-                'id' => $job->getId(),
-            ]);
-        }
-
-        return $this->render('job/edit.html.twig', [
-            'job' => $job,
-            'form' => $form->createView(),
-        ]);
-    }
-
-    /**
-     * @Route("/{id}", name="job_delete", methods={"DELETE"})
-     */
-    public function delete(Request $request, Job $job): Response
-    {
-        if ($this->isCsrfTokenValid('delete'.$job->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($job);
             $entityManager->flush();
+
+            $this->addFlash('success', 'Quote - ' . $job->getId() . ' accepted and job created successfully.');
         }
 
-        return $this->redirectToRoute('job_index');
+        return $this->redirectToRoute('job_show', [
+            'id' => $job->getId(),
+        ]);
+    }
+
+    /**
+     * @Route("/cancel/{id}", name="cancel", methods={"POST"})
+     */
+    public function cancel(Request $request, Job $job)
+    {
+        if ($this->isCsrfTokenValid('cancel'.$job->getId(), $request->request->get('_token'))) {
+            $job->cancel();
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Job - ' . $job->getId() . ' cancelled 😔.');
+        }
+
+        return $this->redirectToRoute('job_index', [
+            'id' => $job->getId(),
+        ]);
     }
 }

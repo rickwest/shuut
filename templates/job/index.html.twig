@@ -1,38 +1,61 @@
 {% extends 'layouts/admin.html.twig' %}
 
-{% block title %}Job index{% endblock %}
+{% import 'partials/_macros.html.twig' as macros %}
+
+{% block title %}Jobs{% endblock %}
+
+{% block headerContent %}
+    <h1 class="h3">Jobs</h1>
+{% endblock %}
 
 {% block content %}
     <div class="card">
-        <div class="card-header"></div>
         <div class="card-body">
-            <h1>Job index</h1>
-
+            <div class="row">
+                <div class="col-md-6 mb-4">
+                    {% include 'partials/_search.html.twig' %}
+                </div>
+            </div>
             <table class="table">
                 <thead>
                 <tr>
-                    <th>Id</th>
-                    <th>actions</th>
+                    <th>Date</th>
+                    <th>Pick Up</th>
+                    <th>Drop Off</th>
+                    <th>Driver</th>
+                    <th>Vehicle</th>
+                    <th>Status</th>
+                    <th>Actions</th>
                 </tr>
                 </thead>
                 <tbody>
-                {% for job in jobs %}
+                {% for item in table.pager %}
                     <tr>
-                        <td>{{ job.id }}</td>
+                        <td>{{ item.date }}</td>
+                        <td>{{ item.quote.pickUp }}</td>
+                        <td>{{ item.quote.dropOff }}</td>
+                        <td>{% if item.driver %}{{ item.driver }}{% else %}<i class="text-danger fa fa-times"></i>{% endif %}</td>
+                        <td>{% if item.vehicle %}{{ item.vehicle }}{% else %}<i class="text-danger fa fa-times"></i>{% endif %}</td>
+                        {% if item.status is same as(constant('App\\Entity\\Job::STATUS_IN_PROGRESS')) %}
+                            <td><span class="badge badge-warning">{{ item.status }}</span></td>
+                        {% elseif item.status is same as(constant('App\\Entity\\Job::STATUS_COMPLETE')) %}
+                            <td><span class="badge badge-success">{{ item.status }}</span></td>
+                        {% elseif item.status is same as(constant('App\\Entity\\Job::STATUS_CANCELLED')) %}
+                            <td><span class="badge badge-danger">{{ item.status }}</span></td>
+                        {% else %}
+                            <td>{{ item.status }}</td>
+                        {% endif %}
                         <td>
-                            <a href="{{ path('job_show', {'id': job.id}) }}">show</a>
-                            <a href="{{ path('job_edit', {'id': job.id}) }}">edit</a>
+                            <a class="btn btn-sm btn-primary" href="{{ path('job_show', {'id': item.id}) }}"><i class="fa fa-eye"></i>&nbsp;View</a>
                         </td>
                     </tr>
                 {% else %}
                     <tr>
-                        <td colspan="2">no records found</td>
+                        <td colspan="2">No records found</td>
                     </tr>
                 {% endfor %}
                 </tbody>
             </table>
-
-            <a href="{{ path('job_new') }}">Create new</a>
         </div>
     </div>
 {% endblock %}

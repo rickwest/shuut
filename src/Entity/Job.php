@@ -9,6 +9,10 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Job
 {
+    const STATUS_IN_PROGRESS = 'In Progress';
+    const STATUS_COMPLETE = 'Complete';
+    const STATUS_CANCELLED = 'Cancelled';
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -31,6 +35,21 @@ class Job
      * @ORM\ManyToOne(targetEntity="App\Entity\Driver", inversedBy="jobs")
      */
     private $driver;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $date;
+
+    /**
+     * @ORM\Column(type="string", length=32)
+     */
+    private $status;
+
+    public function __construct()
+    {
+        $this->status = self::STATUS_IN_PROGRESS;
+    }
 
     public function getId(): ?int
     {
@@ -71,5 +90,58 @@ class Job
         $this->driver = $driver;
 
         return $this;
+    }
+
+    public function getDate(): ?\DateTimeInterface
+    {
+        return $this->date;
+    }
+
+    public function setDate(?\DateTimeInterface $date): self
+    {
+        $this->date = $date;
+
+        return $this;
+    }
+
+    public function getStatus(): ?string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(string $status): self
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    public function complete()
+    {
+        $this->setStatus(self::STATUS_COMPLETE);
+
+        return $this;
+    }
+
+    public function cancel()
+    {
+        $this->setStatus(self::STATUS_CANCELLED);
+
+        return $this;
+    }
+
+    public function canBeCompleted()
+    {
+        return $this->getDriver() && $this->getVehicle();
+    }
+
+    public function isComplete()
+    {
+        return $this->getStatus() === self::STATUS_COMPLETE;
+    }
+
+    public function canBeCancelled()
+    {
+        return $this->getStatus() !== self::STATUS_COMPLETE;
     }
 }
