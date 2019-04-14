@@ -11,7 +11,6 @@ use App\Entity\VehicleType;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use Faker\Factory;
 
 class DemoFixtures extends Fixture
 {
@@ -21,7 +20,7 @@ class DemoFixtures extends Fixture
     public function __construct(UserPasswordEncoderInterface $encoder)
     {
         $this->encoder = $encoder;
-        $this->faker = Factory::create();
+        $this->faker = \Faker\Factory::create();
     }
 
     public function load(ObjectManager $manager)
