@@ -13,4 +13,4 @@ Full documentation can be found [here](https://shuut.readthedocs.io/en/latest/).
 
 ![](http://i.imgur.com/BO81qzr.gif)
 
-![](https://i.imgur.com/T2bT42Y.gif)
+![](http://i.imgur.com/T2bT42Y.gif)
