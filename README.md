@@ -11,4 +11,4 @@ My goal was to produce a simple web application that could help a courier firm m
 
 Full documentation can be found [here](https://shuut.readthedocs.io/en/latest/).
 
-[Imgur](https://i.imgur.com/BO81qzr.gifv)
+![](http://i.imgur.com/BO81qzr.gif)
