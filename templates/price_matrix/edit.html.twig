@@ -1,0 +1,92 @@
+{% extends 'layouts/admin.html.twig' %}
+
+{% block title %}Edit Price Matrix{% endblock %}
+
+{% block headerContent %}
+    <h1 class="h3">Edit Price Matrix<small class="text-muted"> - {{ price_matrix.name }}</small></h1>
+{% endblock %}
+
+{% block content %}
+    {{ form_start(form, {attr: {novalidate: true}}) }}
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header font-weight-bold">
+                    Details
+                </div>
+                <div class="card-body">
+                    {{ form_row(form.name) }}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <strong>Entries</strong>
+                </div>
+                <div class="card-body">
+                    {# store the prototype on the data-prototype attribute #}
+                    <div id="line-items-fields-list" data-widget-tags="{{ "<div></div>"}}" data-prototype="
+                        <div class='row' id='line-item-row-{{ form.entries.vars.prototype.vars.name }}'>
+                            <div class='col-md-7'><div class='form-group'>{{ form_widget(form.entries.vars.prototype.vehicleType)|e }}</div></div>
+                            <div class='col-md-2'><div class='form-group'>{{ form_widget(form.entries.vars.prototype.costPrice)|e }}</div></div>
+                            <div class='col-md-2'><div class='form-group'>{{ form_widget(form.entries.vars.prototype.salePrice)|e }}</div></div>
+                            <div class='col-md-1'><div class='form-group'><button type='button' onclick='deleteLineItem({{ form.entries.vars.prototype.vars.name }})' class='btn btn-outline-danger'><i class='fa fa-trash'></i></button></div></div>
+                        </div>">
+                        <div class="row">
+                            <div class="col-md-7"><label for="">Vehicle Type</label></div>
+                            <div class="col-md-2"><label for="">Cost Price (Per Mile)</label></div>
+                            <div class="col-md-2"><label for="">Sale Price (Per Mile)</label></div>
+                        </div>
+                        {% for entryField in form.entries %}
+                            <div>
+                                <div class="row" id='line-item-row-{{ entryField.vars.name }}'>
+                                    <div class="col-md-7"><div class='form-group'>{{ form_widget(entryField.vehicleType) }}</div></div>
+                                    <div class="col-md-2"><div class='form-group'>{{ form_widget(entryField.costPrice) }}</div></div>
+                                    <div class="col-md-2"><div class='form-group'>{{ form_widget(entryField.salePrice) }}</div></div>
+                                    <div class="col-md-1"><div class='form-group'><button type="button" onclick="deleteLineItem({{ entryField.vars.name }})" class='btn btn-outline-danger'><i class='fa fa-trash'></i></button></div></div>
+                                </div>
+                            </div>
+                            {{ form_errors(entryField) }}
+                        {% endfor %}
+                    </div>
+                    <button type="button" class="add-another-collection-widget btn btn-outline-success" data-list="#line-items-fields-list">
+                        <i class="fa fa-plus"></i>&nbsp;Add Line Item
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% include 'partials/crud/_new_edit_actions.html.twig' with {routeNamePrefix: 'price_matrix_', submitLabel: 'Update'} %}
+    {{ form_end(form) }}
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.add-another-collection-widget').click(function (e) {
+                var list = $($(this).attr('data-list'));
+                // Try to find the counter of the list or use the length of the list
+                var counter = list.data('widget-counter') | list.children().length;
+
+                // grab the prototype template
+                var newWidget = list.attr('data-prototype');
+                // replace the "__name__" used in the id and name of the prototype
+                // with a number that's unique to your emails
+                // end name attribute looks like name="contact[emails][2]"
+                newWidget = newWidget.replace(/__name__/g, counter);
+                // Increase the counter
+                counter++;
+                // And store it, the length cannot be used if deleting widgets is allowed
+                list.data('widget-counter', counter);
+
+                // create a new list element and add it to the list
+                var newElem = $(list.attr('data-widget-tags')).html(newWidget);
+                newElem.appendTo(list);
+            });
+        });
+        function deleteLineItem(index) {
+            $('#line-item-row-' + index).parent().remove();
+        }
+    </script>
+{% endblock %}

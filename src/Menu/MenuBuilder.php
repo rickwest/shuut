@@ -48,6 +48,7 @@ class MenuBuilder
                 ->addItem($this->item('', 'Quotes', ['icon' => 'icon-map'])
                     ->addChild($this->item('quote_index', 'Quotes', ['icon' => 'icon-map']))
                     ->addChild($this->item('quote_new', 'New Quote', ['icon' => 'icon-plus'])))
+                ->addItem($this->item('price_matrix_index', 'Pricing', ['icon' => 'icon-wallet']))
                 ->addItem($this->item('', 'Assets', ['isTitle' => true]))
                 ->addItem($this->item('customer_index', 'Customers', ['icon' => 'icon-layers']))
                 ->addItem($this->item('vehicle_index', 'Vehicles', ['icon' => 'icon-rocket']))

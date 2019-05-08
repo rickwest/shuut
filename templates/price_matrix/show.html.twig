@@ -1,0 +1,107 @@
+{% extends 'layouts/admin.html.twig' %}
+
+{% block title %}Price Matrix{% endblock %}
+
+{% block headerContent %}
+    <h1 class="h3">Price Matrix<small class="text-muted"> - {{ price_matrix.name }}</small></h1>
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header font-weight-bold">
+                    Details
+                </div>
+                <div class="card-body">
+                    <dl class="row">
+                        <dt class="col-sm-3">Name</dt>
+                        <dd class="col-sm-9">{{ price_matrix.name }}</dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header font-weight-bold">
+                    Entries
+                </div>
+                <div class="card-body">
+                    {% if price_matrix.entries|length > 0 %}
+                        <div class="table-responsive-sm">
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th>Vehicle Type</th>
+                                    <th>Cost Price</th>
+                                    <th>Sale Price</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for entry in price_matrix.entries %}
+                                    <tr>
+                                        <td>{{ entry.vehicleType }}</td>
+                                        <td>&pound; {{ entry.costPrice }}</td>
+                                        <td>&pound; {{ entry.salePrice }}</td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    {% else %}
+                        ☹️ No entries! <a href="{{ path('price_matrix_edit', {id: price_matrix.id }) }}">Add some!</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    {% include 'partials/crud/_show_actions.html.twig' with {routeNamePrefix: 'price_matrix_', id: price_matrix.id} %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{#    <h1>PriceMatrix</h1>#}
+
+{#    <table class="table">#}
+{#        <tbody>#}
+{#            <tr>#}
+{#                <th>Id</th>#}
+{#                <td>{{ price_matrix.id }}</td>#}
+{#            </tr>#}
+{#            <tr>#}
+{#                <th>Name</th>#}
+{#                <td>{{ price_matrix.name }}</td>#}
+{#            </tr>#}
+{#        </tbody>#}
+{#    </table>#}
+
+{#    <a href="{{ path('price_matrix_index') }}">back to list</a>#}
+
+{#    <a href="{{ path('price_matrix_edit', {'id': price_matrix.id}) }}">edit</a>#}
+
+{#    {{ include('price_matrix/_delete_form.html.twig') }}#}
+{% endblock %}

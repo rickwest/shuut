@@ -1,0 +1,42 @@
+{% extends 'layouts/admin.html.twig' %}
+
+{% block title %}Price Matrices{% endblock %}
+
+{% block headerContent %}
+    <h1 class="h3">Price Matrices</h1>
+    <div class="btn-toolbar mb-2 mb-md-0">
+        <a href="{{ path('price_matrix_new') }}" class='btn btn-success float-md-right'><i class='fa fa-plus'></i>&nbsp;Create Price Matrix</a>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <div class="card">
+        <div class="card-body">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for price_matrix in price_matrices %}
+                    <tr>
+                        <td>{{ price_matrix.id }}</td>
+                        <td>{{ price_matrix.name }}</td>
+                        <td>
+                            <a class="btn btn-sm btn-primary" href="{{ path('price_matrix_show', {'id': price_matrix.id}) }}"><i class="fa fa-eye"></i>&nbsp;View</a>
+                            <a class="btn btn-sm btn-outline-dark" href="{{ path('price_matrix_edit', {'id': price_matrix.id}) }}"><i class="fa fa-edit"></i>&nbsp;Edit</a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="3">no records found</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}
