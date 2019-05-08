@@ -92,6 +92,9 @@
     "egulias/email-validator": {
         "version": "2.1.7"
     },
+    "facebook/webdriver": {
+        "version": "1.6.0"
+    },
     "fig/link-util": {
         "version": "1.0.0"
     },
@@ -183,9 +186,6 @@
         "version": "v3.4.22"
     },
     "symfony/cache": {
-        "version": "v3.4.22"
-    },
-    "symfony/class-loader": {
         "version": "v3.4.22"
     },
     "symfony/config": {
@@ -305,6 +305,9 @@
     "symfony/orm-pack": {
         "version": "v1.0.6"
     },
+    "symfony/panther": {
+        "version": "v0.3.0"
+    },
     "symfony/phpunit-bridge": {
         "version": "4.1",
         "recipe": {
@@ -313,9 +316,6 @@
             "version": "4.1",
             "ref": "0e548dd90adba18fabd4ef419b14d361fe4d6c74"
         }
-    },
-    "symfony/polyfill-apcu": {
-        "version": "v1.10.0"
     },
     "symfony/polyfill-intl-icu": {
         "version": "v1.10.0"
@@ -350,9 +350,6 @@
             "ref": "4d36f55d8edd7bd88b730754c2d3f3dfc2cd316b"
         }
     },
-    "symfony/security": {
-        "version": "v3.4.22"
-    },
     "symfony/security-bundle": {
         "version": "3.3",
         "recipe": {
@@ -361,6 +358,18 @@
             "version": "3.3",
             "ref": "f8a63faa0d9521526499c0a8f403c9964ecb0527"
         }
+    },
+    "symfony/security-core": {
+        "version": "v4.2.8"
+    },
+    "symfony/security-csrf": {
+        "version": "v4.2.8"
+    },
+    "symfony/security-guard": {
+        "version": "v4.2.8"
+    },
+    "symfony/security-http": {
+        "version": "v4.2.8"
     },
     "symfony/serializer": {
         "version": "v3.4.22"
@@ -409,6 +418,9 @@
     },
     "symfony/var-dumper": {
         "version": "v3.4.22"
+    },
+    "symfony/var-exporter": {
+        "version": "v4.2.8"
     },
     "symfony/web-link": {
         "version": "v3.4.22"
