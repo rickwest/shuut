@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Customer;
+use App\Entity\PriceMatrix;
 use App\Entity\Quote;
 use App\Entity\VehicleType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -24,6 +25,12 @@ class QuoteType extends AbstractType
                 'class' => VehicleType::class,
                 'choice_label' => 'name',
                 'label' => 'Vehicle Type',
+                'placeholder' => 'Choose an option...',
+            ])
+            ->add('priceMatrix', EntityType::class, [
+                'class' => PriceMatrix::class,
+                'choice_label' => 'name',
+                'label' => 'Price Matrix',
                 'placeholder' => 'Choose an option...',
             ])
             ->add('pickUp', AddressType::class)

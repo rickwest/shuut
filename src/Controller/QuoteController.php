@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\DistanceMatrix\DistanceMatrixInterface;
+use App\Entity\LineItem;
 use App\Entity\Quote;
 use App\Form\QuoteEditType;
 use App\Form\QuoteType;
@@ -41,6 +42,26 @@ class QuoteController extends Controller
 
             // We store the distance as an attribute of quote because we don't want to be hitting api unnecessarily
             $quote->setDistance($distanceMatrix->getDistance($quote->getPickUp(), $quote->getDropOff()));
+
+            if ($quote->getPriceMatrix()) {
+                $applyEntry = null;
+
+                foreach ($quote->getPriceMatrix()->getEntries() as $entry) {
+                   if ($entry->getVehicleType() === $quote->getVehicleType()) {
+                       $applyEntry = $entry;
+                   }
+                }
+
+                if ($applyEntry) {
+                    $lineItem = new LineItem();
+                    $lineItem
+                        ->setDescription('Mileage Charge')
+                        ->setQuantity($quote->getDistance()->distanceMiles())
+                        ->setRate($applyEntry->getSalePrice());
+
+                    $quote->addLineItem($lineItem);
+                }
+            }
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($quote);

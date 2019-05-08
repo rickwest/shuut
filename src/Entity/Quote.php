@@ -75,6 +75,11 @@ class Quote
      */
     private $status;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\PriceMatrix")
+     */
+    private $priceMatrix;
+
     public function __construct()
     {
         $this->lineItems = new ArrayCollection();
@@ -223,6 +228,18 @@ class Quote
     public function setStatus(string $status): self
     {
         $this->status = $status;
+
+        return $this;
+    }
+
+    public function getPriceMatrix(): ?PriceMatrix
+    {
+        return $this->priceMatrix;
+    }
+
+    public function setPriceMatrix(?PriceMatrix $priceMatrix): self
+    {
+        $this->priceMatrix = $priceMatrix;
 
         return $this;
     }
