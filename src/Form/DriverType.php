@@ -21,7 +21,9 @@ class DriverType extends AbstractType
             ->add('subcontractor', CheckboxType::class)
             ->add('tradingName', TextType::class)
             ->add('vatNumber', TextType::class)
-            ->add('address', AddressType::class )
+            ->add('address', AddressType::class, [
+                'label' => false,
+            ])
         ;
     }
 

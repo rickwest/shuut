@@ -18,9 +18,11 @@ class CustomerType extends AbstractType
             ->add('name', TextType::class)
             ->add('contactName', TextType::class)
             ->add('telephone', TextType::class)
-            ->add('fax',TextType::class)
+            ->add('fax', TextType::class)
             ->add('email', EmailType::class)
-            ->add('address', AddressType::class)
+            ->add('address', AddressType::class, [
+                'label' => false,
+            ])
         ;
     }
 
