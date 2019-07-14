@@ -15,14 +15,14 @@
 
 {% macro table(table) %}
     {% import _self as macros %}
-    <table class="table table-responsive-sm table-hover">
+    <table class="table table-responsive-sm">
         <thead>
             <tr>
             {% for col, head in table.view %}
                 <th>{{ head }} {% if col in table.sortColumns %}{{ macros.sort(col) }}{% endif %}</th>
             {% endfor %}
             {% if table.routeNamePrefix %}
-                <th>Actions</th>
+                <th></th>
             {% endif %}
             </tr>
         </thead>
@@ -43,9 +43,8 @@
                 {% endif %}
             {% endfor %}
             {% if table.routeNamePrefix %}
-                <td>
-                    <a class="btn btn-sm btn-primary" href="{{ path(table.routeNamePrefix ~ 'show', {'id': item.id}) }}"><i class="fa fa-eye"></i>&nbsp;View</a>
-                    <a class="btn btn-sm btn-outline-dark" href="{{ path(table.routeNamePrefix ~ 'edit', {'id': item.id}) }}"><i class="fa fa-edit"></i>&nbsp;Edit</a>
+                <td class="text-right">
+                    <a class="btn btn-sm btn-outline-secondary pr-4 pl-4" href="{{ path(table.routeNamePrefix ~ 'edit', {'id': item.id}) }}"><i class="fa fa-chevron-right"></i></a>
                 </td>
             {% endif %}
             </tr>
@@ -57,6 +56,6 @@
         </tbody>
     </table>
     <div class="pagerfanta">
-        {{ pagerfanta(table.pager, 'twitter_bootstrap4') }}
+        {{ pagerfanta(table.pager, 'twitter_bootstrap4', {'prev_message': 'Previous', 'next_message': 'Next'}) }}
     </div>
 {% endmacro %}

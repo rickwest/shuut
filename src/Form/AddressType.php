@@ -16,9 +16,11 @@ class AddressType extends AbstractType
     {
         $builder
             ->add('line1', TextType::class, [
+                'label' => 'Line 1'
             ])
             ->add('line2', TextType::class, [
                 'required' => false,
+                'label' => 'Line 2'
             ])
             ->add('city', TextType::class, [
             ])
@@ -30,10 +32,8 @@ class AddressType extends AbstractType
             ->add('country', TextType::class, [
                 'required' => false,
             ])
-            ->add('lat', HiddenType::class, [
-                'validation_groups' => ['']
-            ])
-            ->add('lon', HiddenType::class)
+//            ->add('lat', HiddenType::class)
+//            ->add('lon', HiddenType::class)
         ;
     }
 

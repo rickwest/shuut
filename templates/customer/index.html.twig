@@ -4,21 +4,22 @@
 
 {% block title %}Customers{% endblock %}
 
+{% block breadcrumb %}{% endblock %}
+
 {% block headerContent %}
     <h1 class="h3">Customers</h1>
-    <div class="btn-toolbar mb-2 mb-md-0">
-        <a href="{{ path('customer_new') }}" class='btn btn-success float-md-right'><i class='fa fa-plus'></i>&nbsp;Add Customer</a>
-    </div>
+    <a href="{{ path('customer_new') }}" class='btn btn-success'>New Customer</a>
 {% endblock %}
 
 {% block content %}
-    <div class="card">
+    <div class="card card-accent-primary">
         <div class="card-body">
             <div class="row">
                 <div class="col-md-6 mb-4">
                    {% include 'partials/_search.html.twig' %}
                 </div>
             </div>
+            <p class="text-muted">Showing {{ table.pager.currentPageOffsetStart }} to {{ table.pager.currentPageOffsetEnd }} of {{ table.pager.nbResults }} results</p>
             {{ macros.table(table) }}
         </div>
     </div>

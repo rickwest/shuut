@@ -39,26 +39,16 @@ class CustomerController extends Controller
             $entityManager->persist($customer);
             $entityManager->flush();
 
-            $this->addFlash('success', 'Customer - ' . $customer->getName() . ' was created successfully');
+            $this->addFlash('success', 'Customer created successfully.');
 
-            return $this->redirectToRoute('customer_show', [
-                'id' => $customer->getId()
+            return $this->redirectToRoute('customer_edit', [
+                'id' => $customer->getId(),
             ]);
         }
 
         return $this->render('customer/new.html.twig', [
             'customer' => $customer,
             'form' => $form->createView(),
-        ]);
-    }
-
-    /**
-     * @Route("/{id}", name="show", methods={"GET"})
-     */
-    public function show(Customer $customer): Response
-    {
-        return $this->render('customer/show.html.twig', [
-            'customer' => $customer,
         ]);
     }
 
@@ -73,9 +63,9 @@ class CustomerController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            $this->addFlash('success', 'Customer - ' . $customer->getName() . ' was updated successfully');
+            $this->addFlash('success', 'Customer updated successfully.');
 
-            return $this->redirectToRoute('customer_show', [
+            return $this->redirectToRoute('customer_edit', [
                 'id' => $customer->getId(),
             ]);
         }
@@ -96,7 +86,7 @@ class CustomerController extends Controller
             $entityManager->remove($customer);
             $entityManager->flush();
 
-            $this->addFlash('success', 'Customer - ' . $customer->getName() . ' was deleted successfully');
+            $this->addFlash('success', 'Customer deleted successfully.');
         }
 
         return $this->redirectToRoute('customer_index');
